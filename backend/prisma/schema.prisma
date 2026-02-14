@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum VoteBatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum PartyCode {
+  C
+  L
+  UKIP
+  LD
+  G
+  IND
+  SNP
+}
+
+
+model VoteBatches {
+  id String @id
+  total_rows Int
+  error_message String?
+  error_count Int @default(0)
+  status VoteBatchStatus @default(PENDING)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  voteHistories VoteHistories[]
+}
+
+model VoteHistories {
+  id String @id
+  district_id String
+  party_id String
+  vote_count Int
+  vote_batch_id String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  vote_batch VoteBatches @relation(fields: [vote_batch_id], references: [id])
+  party Parties @relation(fields: party_id, references: id)
+
+  districts Districts[]
+}
+
+model Votes {
+  id String @id
+  party_id String
+  district_id String
+  total_vote_count Int
+  last_vote_history_id String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  party Parties @relation(fields: party_id, references: id)
+
+  district Districts @relation(fields: [district_id], references: [id])
+
+  @@unique(name: "vote_unique_id", fields: [party_id, district_id])
+}
+
+model Parties {
+  id String @id
+  code PartyCode @unique
+  name String @unique
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  votes Votes[]
+  voteHistories VoteHistories[]
+}
+
+model Districts {
+  id String @id
+  name String @unique
+  total_vote_count Int @default(0)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  votes Votes[]
+  voteHistories VoteHistories[]
+}

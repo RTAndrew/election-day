@@ -1,0 +1,27 @@
+.content {
+  padding: 2rem 4rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+
+.logo {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  li {
+    list-style: none;
+    color: red;
+  }
+}

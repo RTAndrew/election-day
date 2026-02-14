@@ -1,0 +1,28 @@
+meta {
+  name: distributed votes per party
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/distributed-votes-per-party
+  body: none
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(/Users/andersonlando/Documents/www/election-day/temp/election.txt)
+}
+
+body:file {
+  file: @file(/Users/andersonlando/Downloads/election-results-sample.txt) @contentType(text/plain; charset=utf-8)
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:8080
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

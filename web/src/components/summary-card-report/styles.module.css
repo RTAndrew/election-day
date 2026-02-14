@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  box-shadow: none;
+  position: relative;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.body {
+  padding: 1rem 1.5rem;
+}
