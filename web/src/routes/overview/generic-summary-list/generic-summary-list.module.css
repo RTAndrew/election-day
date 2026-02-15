@@ -1,0 +1,13 @@
+.skeleton {
+  width: 100% !important;
+}
+
+.summaryDataList {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryDataItem {
+  display: flex;
+  justify-content: space-between;
+}

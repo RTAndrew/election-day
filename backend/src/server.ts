@@ -6,6 +6,8 @@ import { parseElectionFile } from "./features/upload-election/parse-election";
 import { findVotes } from "./features/find-votes";
 import { aggregatedResults } from "./features/aggregated-results";
 import { findVoteDistributionPerParty } from "./features/aggregated-results/find-vote-distribution-per-party";
+import { findMpPerParty } from "./features/aggregated-results/find-mp-per-party";
+import { findDistricts } from "./features/districts/find-districts";
 
 const server = fastify();
 
@@ -23,6 +25,8 @@ server.get("/read-election", () => parseElectionFile('./temp/election.txt'))
 server.get("/votes", findVotes);
 server.get("/results", aggregatedResults);
 server.get("/distributed-votes-per-party", findVoteDistributionPerParty);
+server.get("/mp-per-party", findMpPerParty);
+server.get("/districts", findDistricts);
 
 server.setErrorHandler(globalErrorHandling);
 

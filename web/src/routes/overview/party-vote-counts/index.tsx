@@ -1,8 +1,10 @@
 import SummaryCardReport from "@/components/summary-card-report";
+import { formatKNumber } from "@/utils/format-k-number";
 import { getRequest } from "@/utils/http";
 import { Pie, type PieConfig } from "@ant-design/charts";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton as AntdSkeleton, Empty } from "antd";
+
 
 interface IVoteDistributionPerParty {
 	party_id: string;
@@ -61,11 +63,7 @@ const VoteCounts = () => {
 		label: {
 			text: "total",
 			formatter: (value: string) => {
-				const formatter = new Intl.NumberFormat("en-US", {
-					notation: "compact",
-					compactDisplay: "short",
-				});
-				return `${formatter.format(Number(value))}`;
+				return formatKNumber(Number(value));
 			},
 			style: {
 				fontSize: 10,
@@ -86,7 +84,7 @@ const VoteCounts = () => {
 	};
 
 	return (
-		<SummaryCardReport title="Vote Counts">
+		<SummaryCardReport title="Total Votes per Party">
 			<Pie {...config} />
 		</SummaryCardReport>
 	);

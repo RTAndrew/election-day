@@ -1,17 +1,29 @@
-import React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-import VoteCounts from './overview/vote-counts'
+import { createFileRoute } from "@tanstack/react-router";
+import PartyVoteCounts from "./overview/party-vote-counts";
+import PartyMPCount from "./overview/party-mp-count";
+import { OverViewSummaryCards } from "./overview/summary-cards";
+import DistrictsVotesPerParty from "./overview/district-votes-per-party";
+import { Col } from "antd";
+import { Row } from "antd";
 
-// Index route: path is '/' per routeTree.gen.ts; TS may not see the augmentation
-
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute("/")({ component: App });
 
 function App() {
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-      <VoteCounts />
-      <VoteCounts />
-      <VoteCounts />
-    </div>
-  )
+	return (
+		<Row gutter={[12, 12]}>
+			<Col xs={24} sm={12} md={12} lg={10} xl={4} xxl={4}>
+				<OverViewSummaryCards />
+			</Col>
+
+			<Col xs={24} sm={12} md={12} lg={10} xl={5} xxl={5}>
+				<PartyMPCount />
+			</Col>
+			<Col xs={24} sm={12} md={12} lg={10} xl={6} xxl={6}>
+				<PartyVoteCounts />
+			</Col>
+			<Col xs={24} sm={12} md={12} lg={10} xl={8} xxl={8}>
+				<DistrictsVotesPerParty />
+			</Col>
+		</Row>
+	);
 }

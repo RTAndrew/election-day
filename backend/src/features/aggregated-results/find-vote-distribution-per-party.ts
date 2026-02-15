@@ -8,14 +8,19 @@ interface IVoteDistributionPerParty {
 	vote_percentage: number;
 }
 
-export const findVoteDistributionPerParty = async (_request: FastifyRequest, reply: FastifyReply) => {
+export const findVoteDistributionPerParty = async (
+	_request: FastifyRequest,
+	reply: FastifyReply,
+) => {
 	const results = await prisma.$queryRaw<IVoteDistributionPerParty[]>`
 		SELECT
 			parties.id AS party_id,
 			parties.name AS party_name,
 			COALESCE(SUM(votes."total_vote_count"), 0)::bigint AS total_vote_count,
 			ROUND(100.0 * COALESCE(
-        SUM(votes."total_vote_count"), 0) / NULLIF(SUM(SUM(votes."total_vote_count")) OVER (), 0), 2)::numeric AS vote_percentage
+        SUM(votes."total_vote_count"), 0) / NULLIF(SUM(SUM(votes."total_vote_count")) OVER (), 0)
+				, 2
+			)::numeric AS vote_percentage
 		FROM "Parties" parties
 		LEFT JOIN "Votes" votes ON votes.party_id = parties.id
 		GROUP BY parties.id, parties.name
