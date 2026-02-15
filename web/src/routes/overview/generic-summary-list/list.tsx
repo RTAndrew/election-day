@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 import styles from './generic-summary-list.module.css';
 
 interface SummaryDataListProps {
-  report: { name: string; total: number }[] | null;
+	report: { name: string; total: number; id: string }[] | null;
 }
 
 const SummaryDataList = ({ report }: SummaryDataListProps) => {

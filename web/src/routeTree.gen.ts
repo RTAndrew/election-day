@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResultsIndexRouteImport } from './routes/results/index'
 import { Route as DistrictsIndexRouteImport } from './routes/districts/index'
+import { Route as DistrictsDistrictIdRouteImport } from './routes/districts/$districtId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const DistrictsIndexRoute = DistrictsIndexRouteImport.update({
   path: '/districts/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DistrictsDistrictIdRoute = DistrictsDistrictIdRouteImport.update({
+  id: '/districts/$districtId',
+  path: '/districts/$districtId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/districts/$districtId': typeof DistrictsDistrictIdRoute
   '/districts/': typeof DistrictsIndexRoute
   '/results/': typeof ResultsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/districts/$districtId': typeof DistrictsDistrictIdRoute
   '/districts': typeof DistrictsIndexRoute
   '/results': typeof ResultsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/districts/$districtId': typeof DistrictsDistrictIdRoute
   '/districts/': typeof DistrictsIndexRoute
   '/results/': typeof ResultsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/districts/' | '/results/'
+  fullPaths: '/' | '/districts/$districtId' | '/districts/' | '/results/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/districts' | '/results'
-  id: '__root__' | '/' | '/districts/' | '/results/'
+  to: '/' | '/districts/$districtId' | '/districts' | '/results'
+  id: '__root__' | '/' | '/districts/$districtId' | '/districts/' | '/results/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DistrictsDistrictIdRoute: typeof DistrictsDistrictIdRoute
   DistrictsIndexRoute: typeof DistrictsIndexRoute
   ResultsIndexRoute: typeof ResultsIndexRoute
 }
@@ -82,11 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DistrictsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/districts/$districtId': {
+      id: '/districts/$districtId'
+      path: '/districts/$districtId'
+      fullPath: '/districts/$districtId'
+      preLoaderRoute: typeof DistrictsDistrictIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DistrictsDistrictIdRoute: DistrictsDistrictIdRoute,
   DistrictsIndexRoute: DistrictsIndexRoute,
   ResultsIndexRoute: ResultsIndexRoute,
 }

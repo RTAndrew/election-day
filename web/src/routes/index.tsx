@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import PartyVoteCounts from "./overview/party-vote-counts";
 import PartyMPCount from "./overview/party-mp-count";
 import { OverViewSummaryCards } from "./overview/summary-cards";
-import DistrictsVotesPerParty from "./overview/district-votes-per-party";
+import DistrictsVotesPerParty from "../components/district-votes-per-party";
 import { Col } from "antd";
 import { Row } from "antd";
 
@@ -22,7 +22,7 @@ function App() {
 				<PartyVoteCounts />
 			</Col>
 			<Col xs={24} sm={12} md={12} lg={10} xl={8} xxl={8}>
-				<DistrictsVotesPerParty />
+				<DistrictsVotesPerParty districtId="s" />
 			</Col>
 		</Row>
 	);

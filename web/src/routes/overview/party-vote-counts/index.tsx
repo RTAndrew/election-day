@@ -27,7 +27,7 @@ const Skeleton = () => {
 				active
 				size="large"
 				shape="circle"
-				style={{ width: "100px", height: "100px" }}
+				style={{ width: "300px", height: "300px" }}
 			/>
 		</div>
 	);

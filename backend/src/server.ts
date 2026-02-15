@@ -8,6 +8,7 @@ import { aggregatedResults } from "./features/aggregated-results";
 import { findVoteDistributionPerParty } from "./features/aggregated-results/find-vote-distribution-per-party";
 import { findMpPerParty } from "./features/aggregated-results/find-mp-per-party";
 import { findDistricts } from "./features/districts/find-districts";
+import { findDistrict } from "./features/districts/find-district";
 
 const server = fastify();
 
@@ -26,7 +27,9 @@ server.get("/votes", findVotes);
 server.get("/results", aggregatedResults);
 server.get("/distributed-votes-per-party", findVoteDistributionPerParty);
 server.get("/mp-per-party", findMpPerParty);
+
 server.get("/districts", findDistricts);
+server.get("/districts/:district_id", findDistrict);
 
 server.setErrorHandler(globalErrorHandling);
 

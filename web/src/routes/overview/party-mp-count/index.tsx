@@ -6,6 +6,7 @@ import GenericSummaryListSkeleton from "../generic-summary-list/generic-summary-
 
 interface IPartyMPCount {
 	party_name: string;
+	party_id: string;
 	mp_count: number;
 }
 
@@ -29,6 +30,7 @@ const PartyMPCount = () => {
 				report={(data?.data ?? []).map((item) => ({
 					name: item.party_name,
 					total: item.mp_count,
+					id: item.party_id,
 				}))}
 			/>
 		</SummaryCardReport>
