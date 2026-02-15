@@ -11,17 +11,16 @@ export const Route = createFileRoute("/")({ component: App });
 function App() {
 	return (
 		<Row gutter={[12, 12]}>
-			<Col xs={24} sm={12} md={12} lg={10} xl={4} xxl={4}>
-				<OverViewSummaryCards />
+			<Col xs={24} sm={12} md={12} lg={5}>
+				<div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+					<OverViewSummaryCards />
+					<PartyMPCount />
+				</div>
 			</Col>
-
-			<Col xs={24} sm={12} md={12} lg={10} xl={5} xxl={5}>
-				<PartyMPCount />
-			</Col>
-			<Col xs={24} sm={12} md={12} lg={10} xl={6} xxl={6}>
+			<Col xs={24} sm={12} md={12} lg={5}>
 				<PartyVoteCounts />
 			</Col>
-			<Col xs={24} sm={12} md={12} lg={10} xl={8} xxl={8}>
+			<Col xs={24} sm={12} md={12} lg={14}>
 				<DistrictsVotesPerParty districtId="s" />
 			</Col>
 		</Row>

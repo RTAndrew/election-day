@@ -20,14 +20,21 @@ enum VoteBatchStatus {
   FAILED
 }
 
+//  C
+//   L
+//   UKIP
+//   LD
+//   G
+//   IND
+//   SNP
 enum PartyCode {
-  C
+  PSD
+  PS
+  IL
+  CH
+  PAN
   L
-  UKIP
-  LD
-  G
-  IND
-  SNP
+  BE
 }
 
 
@@ -55,7 +62,7 @@ model VoteHistories {
   vote_batch VoteBatches @relation(fields: [vote_batch_id], references: [id])
   party Parties @relation(fields: party_id, references: id)
 
-  districts Districts[]
+  district Districts @relation(fields: [district_id], references: [id])
 }
 
 model Votes {

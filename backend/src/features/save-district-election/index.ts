@@ -45,7 +45,7 @@ export const saveDistrictElection = async (
 			});
 		}
 
-		// 3. Create vote history
+		// 3. Create vote history (seed can pass recorded_at → stored in createdAt)
 		const createdVoteHistory = await tx.voteHistories.create({
 			data: {
 				id: generateUUID("vh"),
@@ -53,6 +53,10 @@ export const saveDistrictElection = async (
 				vote_batch_id: voteBatchId,
 				vote_count: vote.vote_count,
 				district_id: existingDistrict.id,
+				...(election.recorded_at && {
+					createdAt: new Date(election.recorded_at),
+					updatedAt: new Date(election.recorded_at),
+				}),
 			},
 		});
 

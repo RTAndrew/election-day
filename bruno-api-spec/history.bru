@@ -1,0 +1,28 @@
+meta {
+  name: history
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/results
+  body: none
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(/Users/andersonlando/Downloads/election-results-sample.txt)
+}
+
+body:file {
+  file: @file(/Users/andersonlando/Downloads/election-results-sample.txt) @contentType(text/plain; charset=utf-8)
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:8080
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -9,16 +9,30 @@ export type PartyVotes = {
 export type ElectionRow = {
 	district: string;
 	votes: PartyVotes[];
+	recorded_at?: string;
 };
+
+// Optional date/datetime prefix: YYYY-MM-DD or YYYY-MM-DDTHH:mm[:ss]
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$/;
 
 /**
  * Parses a single line from the election file.
  * Format: district_name, vote_count, party_code, vote_count, party_code, ...
+ * Optional date prefix: YYYY-MM-DD, district_name, vote_count, party_code, ...
  * District name may contain escaped commas: \,
  */
 export function parseElectionLine(line: string): ElectionRow {
 	const parts = line.split(",");
 	let i = 0;
+	let firstPart = parts[i] ?? "";
+
+	// Optional date prefix: YYYY-MM-DD
+	let recorded_at: string | undefined;
+	if (ISO_DATE_REGEX.test(firstPart.trim())) {
+		recorded_at = firstPart.trim();
+		i++;
+	}
+
 	let districtPart = parts[i] ?? "";
 
 	// First column may contain \, meaning a literal comma in the district name
@@ -44,7 +58,7 @@ export function parseElectionLine(line: string): ElectionRow {
 		}
 	}
 
-	return { district, votes };
+	return { district, votes, ...(recorded_at && { recorded_at }) };
 }
 
 /**

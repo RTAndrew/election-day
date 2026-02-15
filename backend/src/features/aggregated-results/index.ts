@@ -20,33 +20,29 @@ const getDistrictWinningParty = async () => {
 		orderBy: {
 			total_vote_count: "desc",
 		},
-		where: {
-			district_id: {
-				equals: "district_nohe92yd6p",
-			},
-    },
-    include: {
-      party: true,
-    },
+		include: {
+			party: true,
+		},
 		take: 1,
 	});
+
 
   return results;
 };
 
 
 export const aggregatedResults = async (
-	request: FastifyRequest,
+	_request: FastifyRequest,
 	response: FastifyReply,
 ) => {
 	const getDistrictResults = await districtResults();
-  const p = await getDistrictWinningParty();
+	const p = await getDistrictWinningParty();
 
 	response.send({
 		status: 200,
 		data: {
-      winningParty: p,
-      districts: getDistrictResults,
+			winningParty: p,
+			districts: getDistrictResults,
 		},
 	});
 };

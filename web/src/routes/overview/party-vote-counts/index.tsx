@@ -1,17 +1,10 @@
 import SummaryCardReport from "@/components/summary-card-report";
+import { useWinningParties } from "@/services/party";
 import { formatKNumber } from "@/utils/format-k-number";
-import { getRequest } from "@/utils/http";
 import { Pie, type PieConfig } from "@ant-design/charts";
-import { useQuery } from "@tanstack/react-query";
 import { Skeleton as AntdSkeleton, Empty } from "antd";
 
 
-interface IVoteDistributionPerParty {
-	party_id: string;
-	party_name: string;
-	total_vote_count: bigint;
-	vote_percentage: number;
-}
 
 const Skeleton = () => {
 	return (
@@ -34,11 +27,7 @@ const Skeleton = () => {
 };
 
 const VoteCounts = () => {
-	const { data, error, isPending } = useQuery({
-		queryKey: ["distributed-votes-per-party"],
-		queryFn: () =>
-			getRequest<IVoteDistributionPerParty[]>("distributed-votes-per-party"),
-	});
+	const { data, error, isPending } = useWinningParties();
 
 	if (isPending) {
 		return <Skeleton />;

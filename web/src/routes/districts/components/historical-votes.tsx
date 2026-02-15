@@ -1,10 +1,6 @@
 import SummaryCardReport from "@/components/summary-card-report";
-import {
-	useFindDistrict,
-	useFindDistrictHistoricalVotes,
-} from "@/services/district";
+import { useFindDistrictHistoricalVotes } from "@/services/district";
 import { Line } from "@ant-design/charts";
-import { useMemo } from "react";
 
 interface DistrictHistoricalVotesProps {
 	districtId: string;
