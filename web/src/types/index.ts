@@ -1,3 +1,11 @@
+export interface IDistrict {
+	id: string;
+	name: string;
+	total_vote_count: number;
+	updatedAt: string;
+	createdAt: string;
+}
+
 export interface IParty {
 	id: string;
 	code: string;

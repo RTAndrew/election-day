@@ -5,6 +5,7 @@ import { OverViewSummaryCards } from "./overview/summary-cards";
 import DistrictsVotesPerParty from "../components/district-votes-per-party";
 import { Col } from "antd";
 import { Row } from "antd";
+import OverviewHistoricalVotes from "./overview/historical-votes";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -22,6 +23,9 @@ function App() {
 			</Col>
 			<Col xs={24} sm={12} md={12} lg={14}>
 				<DistrictsVotesPerParty districtId="s" />
+			</Col>
+			<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+				<OverviewHistoricalVotes />
 			</Col>
 		</Row>
 	);
