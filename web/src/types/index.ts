@@ -15,3 +15,12 @@ export interface IVote {
 	updatedAt: string;
 	createdAt: string;
 }
+
+export interface IHistoricalVote {
+	id: string;
+	date: string;
+	vote_count: number;
+	party_id: string;
+	updatedAt: string;
+	createdAt: string;
+}

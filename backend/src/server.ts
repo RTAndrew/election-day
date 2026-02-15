@@ -9,6 +9,7 @@ import { findVoteDistributionPerParty } from "./features/aggregated-results/find
 import { findMpPerParty } from "./features/aggregated-results/find-mp-per-party";
 import { findDistricts } from "./features/districts/find-districts";
 import { findDistrict } from "./features/districts/find-district";
+import { findDistrictHistoricalVotes } from "./features/districts/find-district-historical-votes";
 
 const server = fastify();
 
@@ -30,6 +31,7 @@ server.get("/mp-per-party", findMpPerParty);
 
 server.get("/districts", findDistricts);
 server.get("/districts/:district_id", findDistrict);
+server.get("/districts/:district_id/history", findDistrictHistoricalVotes);
 
 server.setErrorHandler(globalErrorHandling);
 
