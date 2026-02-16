@@ -6,6 +6,7 @@ import appCss from '../styles.css?url'
 import MainLayout from '@/layouts/main-layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/utils/query-client'
+import ServerSentEvents from "@/components/server-sent-events";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -33,30 +34,31 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <MainLayout>
-          <QueryClientProvider client={queryClient}>
+		<html lang="en">
+			<head>
+				<HeadContent />
+			</head>
+			<body>
+				<MainLayout>
+					<QueryClientProvider client={queryClient}>
+						<ServerSentEvents />
 
-          {children}
-          </QueryClientProvider>
-        </MainLayout>
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
-      </body>
-    </html>
-  )
+						{children}
+					</QueryClientProvider>
+				</MainLayout>
+				<TanStackDevtools
+					config={{
+						position: "bottom-right",
+					}}
+					plugins={[
+						{
+							name: "Tanstack Router",
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+					]}
+				/>
+				<Scripts />
+			</body>
+		</html>
+	);
 }

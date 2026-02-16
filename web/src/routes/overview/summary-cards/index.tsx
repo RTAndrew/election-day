@@ -43,10 +43,11 @@ export const OverViewSummaryCards = () => {
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-			<SummaryCardReport title="Total Citizen Votes">
-				<p className={styles.partyName}>
-					{Intl.NumberFormat("en-US").format(totalVotes)}
-				</p>
+			<SummaryCardReport title="Votes">
+				<Stat
+					value={Intl.NumberFormat("en-US").format(totalVotes)}
+					label="Citizen Votes"
+				/>
 			</SummaryCardReport>
 
 			<SummaryCardReport title="Winning Party">

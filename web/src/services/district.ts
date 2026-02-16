@@ -1,6 +1,6 @@
 import type { IHistoricalVote, IParty, IVote } from "@/types";
-import { getRequest } from "@/utils/http";
-import { useQuery } from "@tanstack/react-query";
+import { buildAPIQueries, getRequest, type IApiResponse } from "@/utils/http";
+import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 
 interface IGetDistrictResponse {
 	winning_party: {
@@ -35,4 +35,17 @@ export const useFindDistrictHistoricalVotes = (districtId: string) => {
 				`districts/${districtId}/history`,
 			),
 	});
+};
+
+export const getDistributedVotesPerPartyOptions = (
+	districtId: string | undefined,
+) =>
+	({
+		queryKey: ["distributed-votes-per-party"], // no ID just to be easier to revalidate on SSE
+		queryFn: () =>
+			getRequest(buildAPIQueries("districts", { district_id: districtId })),
+	}) as UseQueryOptions<IApiResponse<unknown>>;
+
+export const useDistributedVotesPerParty = (districtId: string | undefined) => {
+	return useQuery(getDistributedVotesPerPartyOptions(districtId));
 };

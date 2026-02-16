@@ -1,5 +1,6 @@
 import { prisma } from "../../utils/database";
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { emitSseEvent } from "../server-sent-events";
 
 const districtResults = async () => {
 	const results = await prisma.parties.findMany({
@@ -37,6 +38,11 @@ export const aggregatedResults = async (
 ) => {
 	const getDistrictResults = await districtResults();
 	const p = await getDistrictWinningParty();
+
+	emitSseEvent({
+		winningParty: p,
+		districts: getDistrictResults,
+	});
 
 	response.send({
 		status: 200,

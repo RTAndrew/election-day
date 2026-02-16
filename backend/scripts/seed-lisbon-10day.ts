@@ -102,7 +102,10 @@ async function main() {
 		throw new Error("No constituencies loaded from GeoJSON");
 	}
 
-	const baseDate = new Date("2025-02-01T08:00:00.000Z");
+	// Use last 3 days from now so seed aligns with "current day" and no gap before new votes
+	const baseDate = new Date();
+	baseDate.setUTCDate(baseDate.getUTCDate() - 3);
+	baseDate.setUTCHours(8, 0, 0, 0);
 	const lines: string[] = [];
 	const cumulativeByParty = getCumulativeShares();
 

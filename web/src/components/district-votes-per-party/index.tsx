@@ -20,12 +20,14 @@ const buildAPIQueries = (endpoint: string, queryParams: Record<string, string | 
 }
 
 const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => {
-  const {data, isPending} = useQuery({
-    queryKey: ['districts-votes-per-party', districtId],
-    queryFn: () => {
-      return getRequest(buildAPIQueries('districts', { district_id: districtId }));
-    },
-  })
+  const { data, isPending } = useQuery<any>({
+		queryKey: ["districts-votes-per-party"],
+		queryFn: () => {
+			return getRequest(
+				buildAPIQueries("districts", { district_id: districtId }),
+			);
+		},
+	});
 
   if (isPending) return <div>Loading...</div>
   if (!data) return <div>No data</div>
@@ -48,8 +50,6 @@ const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => 
       result.push(newData);
     }
   }
-
-  console.log(result);
 
   const config = {
 		data: result,
@@ -101,7 +101,7 @@ const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => 
   };
 
   return (
-		<SummaryCardReport title="District Votes Per Party">
+		<SummaryCardReport title="Vote Distribution">
 			<Column {...config} />
 		</SummaryCardReport>
 	);

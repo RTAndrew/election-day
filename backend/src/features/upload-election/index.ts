@@ -7,6 +7,7 @@ import { prisma } from "../../utils/database.js";
 import { saveDistrictElection } from "../save-district-election/index.js";
 import { generateUUID } from "../../utils/uuid.js";
 import { VoteBatchStatus } from "../../../prisma/generated/enums.js";
+import { emitSseEvent } from "../server-sent-events/index.js";
 
 const __dirname = path.dirname(new URL("../../", import.meta.url).pathname);
 
@@ -24,20 +25,34 @@ export const uploadElectionController = async (req: FastifyRequest, res: Fastify
 
   const rows = parseElectionFile(filepath);
 
-  for (const row of rows) {
-    await prisma.$transaction(async (tx) => {
+  // One batch per upload so all districts share the same snapshot time (fixes historical chart)
+  const batchCreatedAt = new Date();
+  const txTimeoutMs = 120_000; // seed can have 1700+ rows; default 5s is too low
+  await prisma.$transaction(
+    async (tx) => {
       const voteBatch = await tx.voteBatches.create({
         data: {
           id: generateUUID("vb"),
           total_rows: rows.length,
           status: VoteBatchStatus.COMPLETED,
+          createdAt: batchCreatedAt,
+          updatedAt: batchCreatedAt,
         },
       });
 
-      await saveDistrictElection(row, voteBatch.id, tx);
-      return voteBatch;
-    });
-  }
+      for (const row of rows) {
+        await saveDistrictElection(row, voteBatch.id, tx, {
+          batchCreatedAt,
+        });
+      }
+    },
+    { timeout: txTimeoutMs },
+  );
+
+	emitSseEvent({
+		event: "votesUpdated",
+		data: {},
+	});
 
 
   res.send({

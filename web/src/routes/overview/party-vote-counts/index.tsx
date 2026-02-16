@@ -73,7 +73,7 @@ const VoteCounts = () => {
 	};
 
 	return (
-		<SummaryCardReport title="Total Votes per Party">
+		<SummaryCardReport title="Votes per Party">
 			<Pie {...config} />
 		</SummaryCardReport>
 	);

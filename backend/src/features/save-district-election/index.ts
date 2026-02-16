@@ -7,6 +7,7 @@ export const saveDistrictElection = async (
 	election: ElectionRow,
 	voteBatchId: string,
 	tx: Prisma.TransactionClient,
+	opts?: { batchCreatedAt?: Date },
 ) => {
 	let totalVotes = 0;
 	// 1. Create district if it doesn't exist
@@ -45,7 +46,11 @@ export const saveDistrictElection = async (
 			});
 		}
 
-		// 3. Create vote history (seed can pass recorded_at → stored in createdAt)
+		// 3. Create vote history (seed can pass recorded_at; upload passes batch time so one snapshot = one timestamp)
+		const createdAt =
+			election.recorded_at != null
+				? new Date(election.recorded_at)
+				: opts?.batchCreatedAt;
 		const createdVoteHistory = await tx.voteHistories.create({
 			data: {
 				id: generateUUID("vh"),
@@ -53,9 +58,9 @@ export const saveDistrictElection = async (
 				vote_batch_id: voteBatchId,
 				vote_count: vote.vote_count,
 				district_id: existingDistrict.id,
-				...(election.recorded_at && {
-					createdAt: new Date(election.recorded_at),
-					updatedAt: new Date(election.recorded_at),
+				...(createdAt && {
+					createdAt,
+					updatedAt: createdAt,
 				}),
 			},
 		});

@@ -2,6 +2,21 @@ interface HttpResponse<T> extends Response {
 	parsedBody?: T;
 }
 
+export const buildAPIQueries = (
+	endpoint: string,
+	queryParams: Record<string, string | undefined | null>,
+) => {
+	if (!queryParams || Object.keys(queryParams).length === 0) return endpoint;
+
+	const params = new URLSearchParams();
+	for (const [key, value] of Object.entries(queryParams)) {
+		if (!value) continue;
+		params.set(key, value);
+	}
+	return `${endpoint}?${params.toString()}`;
+};
+
+
 export interface IApiResponse<T> {
 	data: T | null;
 	errors: unknown | null;
@@ -11,7 +26,7 @@ export interface IApiResponse<T> {
 	raw: Response;
 }
 
-const API_URL = "http://localhost:8080/";
+export const API_URL = "http://localhost:8080/";
 
 export async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
 	const response: HttpResponse<T> = await fetch(request);
