@@ -1,45 +1,15 @@
-import SummaryCardReport from "@/components/summary-card-report";
+import DistrictHistoricalVotes from "@/components/district-historical-votes";
 import { useFindDistrictHistoricalVotes } from "@/services/district";
-import { Line } from "@ant-design/charts";
 
-interface DistrictHistoricalVotesProps {
+interface DistrictHistoricalVotesWrapperProps {
 	districtId: string;
 }
 
-const DistrictHistoricalVotes = ({
+const DistrictHistoricalVotesWrapper = ({
 	districtId,
-}: DistrictHistoricalVotesProps) => {
-	const { data, isPending, error } = useFindDistrictHistoricalVotes(districtId);
-
-	if (isPending) return <div>Loading...</div>;
-	if (!data || error) return <div>No data</div>;
-
-	const chartData = data?.data?.map((item) => ({
-		name: item.party.name,
-		vote: item.vote_count,
-		date: item.createdAt,
-	}));
-
-	const config = {
-		interaction: {
-			brushFilter: true,
-		},
-		colorField: "name",
-		yField: "vote",
-		xField: (d) => new Date(d.date),
-		axis: {
-			x: {
-				labelAutoRotate: false,
-			},
-		},
-		data: chartData,
-	};
-
-	return (
-		<SummaryCardReport title="Historical Votes">
-			<Line {...config} />
-		</SummaryCardReport>
-	);
+}: DistrictHistoricalVotesWrapperProps) => {
+	const query = useFindDistrictHistoricalVotes(districtId);
+	return <DistrictHistoricalVotes {...query} />;
 };
 
-export default DistrictHistoricalVotes;
+export default DistrictHistoricalVotesWrapper;

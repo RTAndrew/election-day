@@ -20,8 +20,8 @@ const DistrictVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => {
 		colorField: "name",
 		label: {
 			text: "value",
-			formatter: (value: string) => {
-				return formatKNumber(Number(value));
+			formatter: (value: number) => {
+				return `${Number((value / (data?.data?.total_votes?.total_votes ?? 0)) * 100).toFixed(2)}%`;
 			},
 			style: {
 				fontSize: 10,
@@ -35,13 +35,13 @@ const DistrictVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => {
 		tooltip: (tdata) => {
 			return {
 				name: tdata.name,
-				value: `${Number((tdata.value / (data?.data?.total_votes?.total_votes ?? 0)) * 100).toFixed(2)}%`,
+				value: formatKNumber(Number(tdata.value)),
 			};
 		},
 	};
 
 	return (
-		<SummaryCardReport title="Total Votes per Party">
+		<SummaryCardReport title="Party Votes">
 			<Pie {...config} />
 		</SummaryCardReport>
 	);

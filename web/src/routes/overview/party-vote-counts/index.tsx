@@ -50,12 +50,11 @@ const VoteCounts = () => {
 		angleField: "value",
 		colorField: "type",
 		label: {
-			text: "total",
+			text: "value",
 			formatter: (value: string) => {
-				return formatKNumber(Number(value));
+				return `${value}%`;
 			},
 			style: {
-				fontSize: 10,
 				fontWeight: "bold",
 			},
 		},
@@ -67,7 +66,7 @@ const VoteCounts = () => {
 		tooltip: (data) => {
 			return {
 				name: data.type,
-				value: `${data.value}%`,
+				value: formatKNumber(Number(data.total)),
 			};
 		},
 	};

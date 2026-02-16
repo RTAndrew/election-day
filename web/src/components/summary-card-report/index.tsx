@@ -5,6 +5,14 @@ interface SummaryCardReportProps extends PropsWithChildren {
   title: string;
 }
 
+
+const Stat = ({ value, label }: { value: number | string; label: string }) => (
+	<div className={styles.stat}>
+		<p className={styles.statValue}>{value}</p>
+		<p className={styles.statLabel}>{label}</p>
+	</div>
+);
+
 const SummaryCardReport = ({ children, title }: SummaryCardReportProps) => {
 	return (
 		<div className={styles.root}>
@@ -15,6 +23,8 @@ const SummaryCardReport = ({ children, title }: SummaryCardReportProps) => {
 		</div>
 	);
 };
+
+SummaryCardReport.Stat = Stat;
 
 export default SummaryCardReport;
 

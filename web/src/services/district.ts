@@ -1,8 +1,8 @@
-import type { IHistoricalVote, IParty, IVote } from "@/types";
+import type { IDistrict, IHistoricalVote, IParty, IVote } from "@/types";
 import { buildAPIQueries, getRequest, type IApiResponse } from "@/utils/http";
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 
-interface IGetDistrictResponse {
+export interface IGetDistrictResponse extends IDistrict {
 	winning_party: {
 		party_id: string;
 		party_name: string;
@@ -11,8 +11,10 @@ interface IGetDistrictResponse {
 	};
 	total_votes: {
 		total_votes: number;
+		total_national_votes: number;
 		national_vote_share: number;
 	};
+	district_national_rank: number;
 	votes_per_party: (IVote & { party: IParty })[];
 }
 
@@ -20,10 +22,21 @@ interface IFindDistrictHistoricalVotesResponse extends IHistoricalVote {
 	party: IParty;
 }
 
+interface IDistrictsResponse extends IDistrict {
+	votes: (IVote & { party: IParty })[];
+}
+
 export const useFindDistrict = (districtId: string) => {
 	return useQuery({
 		queryKey: ["districts", districtId],
 		queryFn: () => getRequest<IGetDistrictResponse>(`districts/${districtId}`),
+	});
+};
+
+export const useDistricts = () => {
+	return useQuery({
+		queryKey: ["districts"],
+		queryFn: () => getRequest<IDistrictsResponse[]>(`districts`),
 	});
 };
 
