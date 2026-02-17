@@ -45,6 +45,7 @@ export function parseElectionLine(line: string): ElectionRow {
 
 	const votes: PartyVotes[] = [];
 	for (let j = 0; j < rest.length - 1; j += 2) {
+		console.log("rest", rest[j], rest[j + 1]);
 		const voteCount = parseInt(rest[j]?.trim() ?? "0", 10);
 		const partyCode = (rest[j + 1] ?? "").trim();
 		if (partyCode) {

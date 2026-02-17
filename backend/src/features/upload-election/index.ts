@@ -25,6 +25,7 @@ export const uploadElectionController = async (req: FastifyRequest, res: Fastify
 
   const rows = parseElectionFile(filepath);
 
+
   // One batch per upload so all districts share the same snapshot time (fixes historical chart)
   const batchCreatedAt = new Date();
   const txTimeoutMs = 120_000; // seed can have 1700+ rows; default 5s is too low
@@ -53,6 +54,7 @@ export const uploadElectionController = async (req: FastifyRequest, res: Fastify
 		event: "votesUpdated",
 		data: {},
 	});
+
 
 
   res.send({

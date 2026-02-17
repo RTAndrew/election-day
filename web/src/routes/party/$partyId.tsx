@@ -34,12 +34,14 @@ function RouteComponent() {
 			<Row gutter={[12, 12]}>
 				<Col sm={24} md={12} lg={6}>
 					<SummaryCardReport title="Total Votes">
-						<SummaryCardReport.Stat value={total_vote_count} />
+						<SummaryCardReport.Stat
+							value={Intl.NumberFormat("en-US").format(total_vote_count)}
+						/>
 					</SummaryCardReport>
 				</Col>
 				<Col sm={24} md={12} lg={6}>
 					<SummaryCardReport title="Turnout">
-						<SummaryCardReport.Stat value={vote_percentage} />
+						<SummaryCardReport.Stat value={`${vote_percentage}%`} />
 					</SummaryCardReport>
 				</Col>
 				<Col sm={24} md={12} lg={6}>
@@ -54,7 +56,7 @@ function RouteComponent() {
 				</Col>
 
 				<Col sm={24} md={12} lg={6}>
-					<SummaryCardReport title="Perfomance">
+					<SummaryCardReport title="Performance per District">
 						<SummaryCardReport.StatGroup direction="vertical">
 							{strongest_district && (
 								<SummaryCardReport.Stat
@@ -71,11 +73,10 @@ function RouteComponent() {
 						</SummaryCardReport.StatGroup>
 					</SummaryCardReport>
 				</Col>
-        <Col sm={24} md={24} lg={24}>
-          <PartyHistoricalVotes partyId={partyId} />
-        </Col>
-      </Row>
-
+				<Col sm={24} md={24} lg={24}>
+					<PartyHistoricalVotes partyId={partyId} />
+				</Col>
+			</Row>
 		</>
 	);
 }

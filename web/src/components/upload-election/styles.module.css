@@ -1,0 +1,11 @@
+.fileRoot {
+  padding-top: 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid #d9d9d9;
+}
+
+.fileDescription {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+}

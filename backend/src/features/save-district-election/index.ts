@@ -48,9 +48,10 @@ export const saveDistrictElection = async (
 
 		// 3. Create vote history (seed can pass recorded_at; upload passes batch time so one snapshot = one timestamp)
 		const createdAt =
-			election.recorded_at != null
+			election.recorded_at !== undefined
 				? new Date(election.recorded_at)
 				: opts?.batchCreatedAt;
+
 		const createdVoteHistory = await tx.voteHistories.create({
 			data: {
 				id: generateUUID("vh"),

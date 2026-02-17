@@ -17,18 +17,7 @@ import { findParty } from "./features/parties/find-party";
 import { findPartyHistoricalVotes } from "./features/parties/find-party-historical-votes";
 
 (async () => {
-	const server = fastify({
-		logger: {
-			level: "debug",
-			transport: {
-				target: "pino-pretty",
-				options: {
-					translateTime: "HH:MM:ss Z",
-					ignore: "pid,hostname",
-				},
-			},
-		},
-	});
+	const server = fastify();
 
 	await server.register(import("@fastify/sse"), {
 		serializer: (value: unknown) =>

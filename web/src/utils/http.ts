@@ -52,12 +52,13 @@ export async function api<T>(
 		const { parsedBody, ...rest } = await http<THttp<T>>(
 			new Request(API_URL + path, {
 				...args,
-				headers: {
-					...args.headers,
-					credentials: "include",
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
+				headers: args.headers
+					? args.headers
+					: {
+							credentials: "include",
+							Accept: "application/json",
+							"Content-Type": "application/json",
+						},
 			}),
 		);
 
@@ -93,17 +94,15 @@ export async function getRequest<T>(
   });
 }
 
-interface IPostRequestArgs extends Omit<RequestInit, "body"> {
-	body: Record<string, unknown>;
-}
+// interface IPostRequestArgs extends RequestInit {}
 
 export async function postRequest<T>(
 	path: string,
-	args: IPostRequestArgs,
+	args: RequestInit,
 ): Promise<IApiResponse<T>> {
 	return await api<T>(path, {
 		...args,
-		body: JSON.stringify(args.body),
+		body: args.body ? args.body : JSON.stringify(args.body),
 		method: "POST",
 	});
 }
