@@ -2,17 +2,17 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { prisma } from "../../utils/database";
 
 export const findDistrictHistoricalVotes = async (req: FastifyRequest, res: FastifyReply) => {
-  const { district_id } = req.params as { district_id: string };
+  const { districtId } = req.params as { districtId: string };
 
   const voteHistories = await prisma.voteHistories.findMany({
-    where: { district_id },
-    include: {
-      party: true,
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
+		where: { district_id: districtId },
+		include: {
+			party: true,
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+	});
 
   res.status(200).send({
     status: 200,

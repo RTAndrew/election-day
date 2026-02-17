@@ -1,14 +1,20 @@
 import SummaryCardReport from "@/components/summary-card-report";
 import { Line } from "@ant-design/charts";
 import { useMemo } from "react";
-import { prepareDistrictHistoricalVotesData, type DistrictHistoricalVotesProps, type IHistoricalVoteChartPoint } from "./utils";
-
+import {
+	prepareDistrictHistoricalVotesData,
+	type DistrictHistoricalVotesProps,
+	type HistoricalVoteInputItem,
+	type IHistoricalVoteChartPoint,
+} from "./utils";
 
 const DistrictHistoricalVotes = ({
 	data,
 	isPending,
 	error,
-	prepareChartData = prepareDistrictHistoricalVotesData,
+	prepareChartData = prepareDistrictHistoricalVotesData as (
+		items: HistoricalVoteInputItem[],
+	) => ReturnType<typeof prepareDistrictHistoricalVotesData>,
 	title = "Historical Votes",
 }: DistrictHistoricalVotesProps) => {
 	const chartData = useMemo(
@@ -23,6 +29,7 @@ const DistrictHistoricalVotes = ({
 		interaction: {
 			brushFilter: true,
 		},
+		connectNulls: true,
 		colorField: "name",
 		yField: "vote",
 		xField: (d: IHistoricalVoteChartPoint) => new Date(d.date),

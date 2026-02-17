@@ -2,9 +2,10 @@ import { Typography } from 'antd';
 
 
 import styles from './generic-summary-list.module.css';
+import type { ReactNode } from "react";
 
 interface SummaryDataListProps {
-	report: { name: string; total: number; id: string }[] | null;
+	report: { name: ReactNode; total: number; id: string }[] | null;
 }
 
 const SummaryDataList = ({ report }: SummaryDataListProps) => {

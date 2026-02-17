@@ -3,6 +3,7 @@ import SummaryDataList from "../generic-summary-list/list";
 import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/utils/http";
 import GenericSummaryListSkeleton from "../generic-summary-list/generic-summary-list.skeleton";
+import { Link } from "@tanstack/react-router";
 
 interface IPartyMPCount {
 	party_name: string;
@@ -25,10 +26,14 @@ const PartyMPCount = () => {
 	}
 
 	return (
-		<SummaryCardReport title="MP per Party">
+		<SummaryCardReport title="Members of Parliament">
 			<SummaryDataList
 				report={(data?.data ?? []).map((item) => ({
-					name: item.party_name,
+					name: (
+						<Link to={`/party/$partyId`} params={{ partyId: item.party_id }}>
+							{item.party_name}
+						</Link>
+					),
 					total: item.mp_count,
 					id: item.party_id,
 				}))}

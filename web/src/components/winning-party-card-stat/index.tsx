@@ -20,7 +20,7 @@ const WinningPartyCardStat = ({ name, totalVotes, votePercentage }: WinningParty
 					/>
 					<SummaryCardReport.Stat
 						value={`${votePercentage}%`}
-						label="Percentage"
+						label="Turnout"
 					/>
 				</div>
 			</SummaryCardReport>

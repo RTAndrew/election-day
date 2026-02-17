@@ -6,7 +6,7 @@ export const findDistrict = async (
 	request: FastifyRequest,
 	response: FastifyReply,
 ) => {
-	const { district_id } = request.params as { district_id: string };
+	const { districtId } = request.params as { districtId: string };
 
 	const votes = await prisma.votes.findMany({
 		include: {
@@ -25,18 +25,16 @@ export const findDistrict = async (
 	});
 
 	const districtNationalRank =
-		1 + districts.findIndex((vote) => vote.id === district_id);
+		1 + districts.findIndex((vote) => vote.id === districtId);
 
 	const totalNationalVotes = districts.reduce(
 		(acc, district) => acc + district.total_vote_count,
 		0,
 	);
 
-	const districtVotes = votes.filter(
-		(vote) => vote.district_id === district_id,
-	);
+	const districtVotes = votes.filter((vote) => vote.district_id === districtId);
 
-	const aggregate = await aggregatedDistricts(district_id);
+	const aggregate = await aggregatedDistricts(districtId);
 	const districtTotalVotes = aggregate.district_total_vote_count;
 
 	const winning_party =

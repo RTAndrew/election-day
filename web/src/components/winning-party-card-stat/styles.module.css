@@ -1,13 +1,10 @@
 .statList {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 2rem;
 }
 
 .partyName {
   font-size: 1.5rem;
   font-weight: 600;
-  text-align: center;
   margin-bottom: 0.5rem;
 }

@@ -10,15 +10,18 @@ export interface IHistoricalVoteChartPoint {
 	date: string;
 }
 
+/** Union of item shapes accepted by district (multi-line) and party (single-line) preparers. */
+export type HistoricalVoteInputItem = IHistoricalVoteItem | IPartyHistoricalVoteItem;
+
 export interface DistrictHistoricalVotesProps {
 	title?: string;
 	error: unknown;
 	isPending: boolean;
 	/** Query result: data is the API response with .data array of historical vote items */
-	data?: { data?: IHistoricalVoteItem[] | null };
+	data?: { data?: HistoricalVoteInputItem[] | null };
 	/** Transform raw API items into chart points. Default: aggregate by (party, date) and sort. */
 	prepareChartData?: (
-		items: IHistoricalVoteItem[],
+		items: HistoricalVoteInputItem[],
 	) => IHistoricalVoteChartPoint[];
 }
 
@@ -63,4 +66,27 @@ export const prepareDistrictHistoricalVotesData = (
 		return new Date(a.date).getTime() - new Date(b.date).getTime();
 	});
 	return aggregated;
+}
+
+/** Items with at least vote_count and createdAt (e.g. party history API). */
+export interface IPartyHistoricalVoteItem {
+	vote_count: number;
+	createdAt: string;
+}
+
+/**
+ * Single-line chart: one party’s history. Aggregate by date (multiple districts per date)
+ * and sort by date so the line is chronological and has no vertical spikes.
+ */
+export const preparePartyHistoricalVotesData = (
+	items: IPartyHistoricalVoteItem[],
+): IHistoricalVoteChartPoint[] => {
+	const byDate = new Map<string, number>();
+	for (const item of items) {
+		const key = item.createdAt;
+		byDate.set(key, (byDate.get(key) ?? 0) + item.vote_count);
+	}
+	return [...byDate.entries()]
+		.sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+		.map(([date, vote]) => ({ name: "", vote, date }));
 }

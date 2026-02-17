@@ -12,6 +12,9 @@ import { findDistrict } from "./features/districts/find-district";
 import { findDistrictHistoricalVotes } from "./features/districts/find-district-historical-votes";
 import { findHistoricalVotes } from "./features/find-historical-votes";
 import { serverSentEvents } from "./features/server-sent-events";
+import { findParties } from "./features/parties/find-parties";
+import { findParty } from "./features/parties/find-party";
+import { findPartyHistoricalVotes } from "./features/parties/find-party-historical-votes";
 
 (async () => {
 	const server = fastify({
@@ -27,7 +30,6 @@ import { serverSentEvents } from "./features/server-sent-events";
 		},
 	});
 
-
 	await server.register(import("@fastify/sse"), {
 		serializer: (value: unknown) =>
 			JSON.stringify(
@@ -38,7 +40,7 @@ import { serverSentEvents } from "./features/server-sent-events";
 	await server.register(cors, { origin: true }); // allow all origins in development
 	await server.register(import("@fastify/multipart"));
 
-	server.get("/ping", async (request, reply) => {
+	server.get("/ping", async () => {
 		return "pong\n";
 	});
 
@@ -46,12 +48,17 @@ import { serverSentEvents } from "./features/server-sent-events";
 	server.get("/read-election", () => parseElectionFile("./temp/election.txt"));
 	server.get("/votes", findVotes);
 	server.get("/results", aggregatedResults);
-	server.get("/distributed-votes-per-party", findVoteDistributionPerParty);
-	server.get("/mp-per-party", findMpPerParty);
+	server.get("/distributed-votes-per-party", findVoteDistributionPerParty); // TODO: delete this
+	server.get("/mp-per-party", findMpPerParty); // TODO: deprecate. Use /parties instead
 
 	server.get("/districts", findDistricts);
-	server.get("/districts/:district_id", findDistrict);
-	server.get("/districts/:district_id/history", findDistrictHistoricalVotes);
+	server.get("/districts/:districtId", findDistrict);
+	server.get("/districts/:districtId/history", findDistrictHistoricalVotes);
+
+	server.get("/parties", findParties);
+	server.get("/parties/:partyId", findParty);
+	server.get("/parties/:partyId/history", findPartyHistoricalVotes);
+
 	server.get("/history", findHistoricalVotes);
 
 	server.get("/stream", { sse: true }, serverSentEvents);
