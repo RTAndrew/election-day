@@ -1,6 +1,6 @@
 import DistrictsVotesPerParty from "@/components/district-votes-per-party";
 import { createFileRoute } from "@tanstack/react-router";
-import DistrictTable from "./components/districts-table";
+import DistrictTable from "./-components/districts-table";
 import { Col, Row } from "antd";
 
 export const Route = createFileRoute("/districts/")({

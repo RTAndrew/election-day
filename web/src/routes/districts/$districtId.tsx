@@ -1,9 +1,9 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 import { Col, Row } from 'antd';
-import DistrictTotalVotes from './components/total-votes';
-import DistrictVotesPerParty from './components/district-votes-per-party';
-import DistrictHistoricalVotes from "./components/historical-votes";
+import DistrictTotalVotes from "./-components/total-votes";
+import DistrictVotesPerParty from "./-components/district-votes-per-party";
+import DistrictHistoricalVotes from "./-components/historical-votes";
 import ScreenHeader from "@/components/screen-header";
 import { getRequest } from "@/utils/http";
 import type { IGetDistrictResponse } from "@/services/district";

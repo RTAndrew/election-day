@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import PartyVoteCounts from "./overview/party-vote-counts";
-import PartyMPCount from "./overview/party-mp-count";
-import { OverViewSummaryCards } from "./overview/summary-cards";
+import PartyVoteCounts from "./-overview/party-vote-counts";
+import PartyMPCount from "./-overview/party-mp-count";
+import { OverViewSummaryCards } from "./-overview/summary-cards";
 import DistrictsVotesPerParty from "../components/district-votes-per-party";
 import { Col } from "antd";
 import { Row } from "antd";
-import OverviewHistoricalVotes from "./overview/historical-votes";
-import DistrictTable from "./districts/components/districts-table";
+import OverviewHistoricalVotes from "./-overview/historical-votes";
+import DistrictTable from "./districts/-components/districts-table";
 import SummaryCardReport from "@/components/summary-card-report";
 import ScreenHeader from "@/components/screen-header";
 
