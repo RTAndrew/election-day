@@ -11,7 +11,9 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   return (
 		<Layout>
 			<Header className={styles.header}>
-				<p className={styles.logo}>Election Day</p>
+				<Link to="/">
+					<p className={styles.logo}>Election Day</p>
+				</Link>
 
 				<ul className={styles.menu}>
 					<li>
@@ -19,9 +21,6 @@ const MainLayout = ({ children }: PropsWithChildren) => {
 					</li>
 					<li>
 						<Link to="/districts">Districts</Link>
-					</li>
-					<li>
-						<Link to="/results">Results</Link>
 					</li>
 					<li>
 						<UploadElectionButton />

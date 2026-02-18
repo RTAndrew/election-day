@@ -121,7 +121,8 @@ export const uploadElectionController = async (
 		{ timeout: txTimeoutMs },
 	);
 
-	await fakePromise(3000);
+	// TESTING: uncomment to test delay/throttling on larger files
+	// await fakePromise(3000);
 
 	emitSseEvent({
 		event: "uploadProgress",

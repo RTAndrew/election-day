@@ -36,7 +36,10 @@ import { findPartyHistoricalVotes } from "./features/parties/find-party-historic
 				(_key, v) => (typeof v === "bigint" ? v.toString() : v), // fix for bigint serialization
 			),
 	});
-	await server.register(cors, { origin: true }); // allow all origins in development
+	await server.register(cors, {
+		origin: true,
+		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	}); // allow all origins in development
 	await server.register(import("@fastify/multipart"));
 
 	server.get("/ping", async () => {

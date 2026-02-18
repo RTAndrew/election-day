@@ -23,5 +23,13 @@
   li {
     list-style: none;
     color: red;
+
+    a {
+      color: #fff;
+      font-size: 1rem;
+      &:hover {
+        color: #1677FF;
+      }
+    }
   }
 }
