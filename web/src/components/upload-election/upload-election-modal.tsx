@@ -1,26 +1,51 @@
 import { uploadElection } from "@/services/upload-election";
 import { InboxOutlined } from "@ant-design/icons";
 
-import { Flex, Modal, Typography } from "antd";
+import { Modal } from "antd";
 import { Upload } from "antd";
 import type { RcFile } from "antd/es/upload";
 import { useState } from "react";
+import UploadStatus from "./upload-status";
 const { Dragger } = Upload;
 
-import styles from "./styles.module.css";
 
 interface UploadElectionModalProps {
 	open: boolean;
 	onClose: () => void;
 }
 
+export interface IFileUpload {
+	file: RcFile;
+	uploadId: string;
+	errorMessage?: string;
+}
+
 const UploadElectionModal = ({ open, onClose }: UploadElectionModalProps) => {
-	const [file, setFile] = useState<RcFile | null>(null);
+	const [file, setFile] = useState<IFileUpload | null>(null);
 
 	const handleUpload = async (file: RcFile) => {
-		setFile(file);
-		// const result = await uploadElection(file);
+
+			const uploadId = crypto.randomUUID();
+			setFile({ file, uploadId });
+
+    const { error } = await uploadElection(file, uploadId);
+		if (error) {
+			setFile((prev) => {
+				if (!prev) return null;
+
+				return {
+					...prev,
+					errorMessage: error as string,
+				};
+			});
+		}
+
 		return false;
+	};
+
+  const handleClose = () => {
+		setFile(null);
+		onClose();
 	};
 
 	return (
@@ -28,9 +53,13 @@ const UploadElectionModal = ({ open, onClose }: UploadElectionModalProps) => {
 			open={open}
 			footer={false}
 			destroyOnHidden
-			closable={false}
-			onCancel={onClose}
+			closable={true}
+			onCancel={handleClose}
 			title="Upload Election"
+			mask={{
+				closable: file ? false : true,
+			}}
+			cancelText={"Close"}
 		>
 			<Dragger
 				name="election-file"
@@ -48,22 +77,7 @@ const UploadElectionModal = ({ open, onClose }: UploadElectionModalProps) => {
 				<p className="ant-upload-hint">Only .txt and .csv files are allowed.</p>
 			</Dragger>
 
-			{file && (
-				<div className={styles.fileRoot}>
-					<div className={styles.fileDescription}>
-						<Typography.Paragraph strong>File: </Typography.Paragraph>
-						<Typography.Paragraph>{file.name}</Typography.Paragraph>
-					</div>
-					<div className={styles.fileDescription}>
-						<Typography.Paragraph strong>Size: </Typography.Paragraph>
-						<Typography.Paragraph>{file.size}</Typography.Paragraph>
-					</div>
-					<div className={styles.fileDescription}>
-						<Typography.Paragraph strong>Type: </Typography.Paragraph>
-						<Typography.Paragraph>{file.size}</Typography.Paragraph>
-					</div>
-				</div>
-			)}
+			{file && <UploadStatus file={file} />}
 		</Modal>
 	);
 };

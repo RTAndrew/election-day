@@ -46,6 +46,7 @@ model VoteBatches {
   status VoteBatchStatus @default(PENDING)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+  completed_at_ms Float?
 
   voteHistories VoteHistories[]
 }

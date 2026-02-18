@@ -17,7 +17,19 @@ import { findParty } from "./features/parties/find-party";
 import { findPartyHistoricalVotes } from "./features/parties/find-party-historical-votes";
 
 (async () => {
-	const server = fastify();
+	const server = fastify({
+		disableRequestLogging: true,
+		logger: {
+			level: "debug",
+			transport: {
+				target: "pino-pretty",
+				options: {
+					translateTime: "HH:MM:ss Z",
+					ignore: "pid,hostname",
+				},
+			},
+		},
+	});
 
 	await server.register(import("@fastify/sse"), {
 		serializer: (value: unknown) =>
@@ -33,7 +45,7 @@ import { findPartyHistoricalVotes } from "./features/parties/find-party-historic
 		return "pong\n";
 	});
 
-	server.post("/upload-elections", uploadElectionController);
+	server.post("/upload-elections/:uploadId", uploadElectionController);
 	server.get("/read-election", () => parseElectionFile("./temp/election.txt"));
 	server.get("/votes", findVotes);
 	server.get("/results", aggregatedResults);

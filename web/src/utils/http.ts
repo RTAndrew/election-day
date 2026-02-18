@@ -16,10 +16,9 @@ export const buildAPIQueries = (
 	return `${endpoint}?${params.toString()}`;
 };
 
-
 export interface IApiResponse<T> {
 	data: T | null;
-	errors: unknown | null;
+	error: unknown | null;
 	statusCode: number;
 	message: string;
 	/** The raw HTTP Response */
@@ -30,12 +29,10 @@ export const API_URL = "http://localhost:8080/";
 
 export async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
 	const response: HttpResponse<T> = await fetch(request);
-	if (!response.ok) {
-		throw new Error(response.statusText);
-	}
 
 	try {
 		response.parsedBody = await response.json();
+
 		return response;
 	} catch (error: any) {
 		console.log(error);
@@ -68,7 +65,7 @@ export async function api<T>(
 				data: null,
 				raw: rest,
 				message: "A client error happened while processing the server request",
-				errors: null,
+				error: null,
 			};
 
 		return {
@@ -77,8 +74,8 @@ export async function api<T>(
 			raw: rest,
 		};
 	} catch (error) {
-		console.log(error);
-		throw new Error(error as any);
+		console.log("error weird one", error);
+		throw new Error(error instanceof Error ? error.message : "Unknown error");
 	}
 }
 
@@ -88,10 +85,10 @@ export async function getRequest<T>(
 		method: "GET",
 	},
 ): Promise<IApiResponse<T>> {
-  return await api<T>(path, {
-    ...args,
-    method: "GET",
-  });
+	return await api<T>(path, {
+		...args,
+		method: "GET",
+	});
 }
 
 // interface IPostRequestArgs extends RequestInit {}

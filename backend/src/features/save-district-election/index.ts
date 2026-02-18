@@ -3,6 +3,7 @@ import { getPartyName } from "../../utils/party-name";
 import { generateUUID } from "../../utils/uuid";
 import type { ElectionRow } from "../upload-election/parse-election";
 
+// TODO: move to upload and make it a single function
 export const saveDistrictElection = async (
 	election: ElectionRow,
 	voteBatchId: string,

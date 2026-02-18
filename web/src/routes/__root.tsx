@@ -7,6 +7,7 @@ import MainLayout from '@/layouts/main-layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/utils/query-client'
 import ServerSentEvents from "@/components/server-sent-events";
+import UploadProgressProvider from "@/components/context/upload-progress";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -39,13 +40,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<MainLayout>
-					<QueryClientProvider client={queryClient}>
-						<ServerSentEvents />
+				<UploadProgressProvider>
+					<MainLayout>
+						<QueryClientProvider client={queryClient}>
+							<ServerSentEvents />
 
-						{children}
-					</QueryClientProvider>
-				</MainLayout>
+							{children}
+						</QueryClientProvider>
+					</MainLayout>
+				</UploadProgressProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

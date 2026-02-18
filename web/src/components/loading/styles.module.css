@@ -1,0 +1,21 @@
+.spinner {
+  /* base – no extra styles */
+}
+
+.fullWidth {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

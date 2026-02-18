@@ -21,36 +21,51 @@ const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$/;
  * Optional date prefix: YYYY-MM-DD, district_name, vote_count, party_code, ...
  * District name may contain escaped commas: \,
  */
-export function parseElectionLine(line: string): ElectionRow {
-	const parts = line.split(",");
+export function parseElectionLine(
+	line: string,
+	lineNumber: number,
+): ElectionRow {
 	let i = 0;
-	let firstPart = parts[i] ?? "";
+	const parts = line.split(",");
+	let possibleCreationDate = parts[i] ?? "";
 
 	// Optional date prefix: YYYY-MM-DD
+	// check if the possibleCreationDate is actually a valid date, which
+	// is used to store the recorded_at date during SEED
 	let recorded_at: string | undefined;
-	if (ISO_DATE_REGEX.test(firstPart.trim())) {
-		recorded_at = firstPart.trim();
-		i++;
+	if (ISO_DATE_REGEX.test(possibleCreationDate.trim())) {
+		recorded_at = possibleCreationDate.trim();
+		i++; // skip the date
 	}
 
-	let districtPart = parts[i] ?? "";
+	let districtName = parts[i] ?? "";
+	// First column may contain "\", meaning a literal escaped comma in the district name
+	while (districtName.endsWith("\\") && i + 1 < parts.length) {
+		districtName = districtName.slice(0, -1) + "," + (parts[++i] ?? "").trim();
 
-	// First column may contain \, meaning a literal comma in the district name
-	while (districtPart.endsWith("\\") && i + 1 < parts.length) {
-		districtPart = districtPart.slice(0, -1) + "," + (parts[++i] ?? "");
+		if (typeof districtName === "number") {
+			throw new Error(
+				`Invalid district name: ${districtName} on line ${lineNumber}`,
+			);
+		}
 	}
-	i++;
-	const district = districtPart.trim();
-	const rest = parts.slice(i);
+
+	i++; // skip the district name
+	const restOfLineBesidesTheDistrictName = parts.slice(i);
 
 	const votes: PartyVotes[] = [];
-	for (let j = 0; j < rest.length - 1; j += 2) {
-		console.log("rest", rest[j], rest[j + 1]);
-		const voteCount = parseInt(rest[j]?.trim() ?? "0", 10);
-		const partyCode = (rest[j + 1] ?? "").trim();
+	for (let j = 0; j < restOfLineBesidesTheDistrictName.length - 1; j += 2) {
+		const voteCount = parseInt(
+			restOfLineBesidesTheDistrictName[j]?.trim() ?? "0",
+			10,
+		);
+
+		const partyCode = (restOfLineBesidesTheDistrictName[j + 1] ?? "").trim();
 		if (partyCode) {
 			if (!Object.keys(PartyCode).includes(partyCode.toUpperCase()))
-				throw new Error(`Invalid party code: ${partyCode}`);
+				throw new Error(
+					`Invalid party code: ${partyCode} on line ${lineNumber}`,
+				);
 
 			votes.push({
 				vote_count: voteCount,
@@ -59,7 +74,7 @@ export function parseElectionLine(line: string): ElectionRow {
 		}
 	}
 
-	return { district, votes, ...(recorded_at && { recorded_at }) };
+	return { district: districtName, votes, ...(recorded_at && { recorded_at }) };
 }
 
 /**
@@ -71,5 +86,5 @@ export function parseElectionFile(filepath: string): ElectionRow[] {
 		.split("\n")
 		.map((line) => line.trim())
 		.filter(Boolean)
-		.map(parseElectionLine);
+		.map((line, index) => parseElectionLine(line, index + 1));
 }
