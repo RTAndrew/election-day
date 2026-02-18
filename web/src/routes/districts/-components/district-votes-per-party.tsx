@@ -1,5 +1,5 @@
 import SummaryCardReport from "@/components/summary-card-report";
-import { useFindDistrict } from "@/services/district";
+import { useDistrict } from "@/services/district";
 import { formatKNumber } from "@/utils/format-k-number";
 import { Pie, type PieConfig } from "@ant-design/charts";
 
@@ -9,7 +9,7 @@ interface DistrictsVotesPerPartyProps {
 
 
 const DistrictVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => {
-	const { data, isPending, error } = useFindDistrict(districtId);
+	const { data, isPending, error } = useDistrict(districtId);
 
 	if (isPending) return <div>Loading...</div>;
 	if (!data || error) return <div>No data</div>;

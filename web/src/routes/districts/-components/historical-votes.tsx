@@ -1,5 +1,5 @@
 import DistrictHistoricalVotes from "@/components/district-historical-votes";
-import { useFindDistrictHistoricalVotes } from "@/services/district";
+import { useDistrictHistoryVotes } from "@/services/district";
 
 interface DistrictHistoricalVotesWrapperProps {
 	districtId: string;
@@ -8,7 +8,7 @@ interface DistrictHistoricalVotesWrapperProps {
 const DistrictHistoricalVotesWrapper = ({
 	districtId,
 }: DistrictHistoricalVotesWrapperProps) => {
-	const query = useFindDistrictHistoricalVotes(districtId);
+	const query = useDistrictHistoryVotes(districtId);
 	return <DistrictHistoricalVotes {...query} />;
 };
 

@@ -1,6 +1,6 @@
 import { Prisma } from "../../../../prisma/generated/client";
 import { prisma } from "../../../utils/database";
-import { FindPartiesMemberOfParliamentUC } from "../../aggregated-results/find-mp-per-party/find-mp-per-party.uc";
+import { FindPartiesMemberOfParliamentUC } from "../find-mp-per-party.uc";
 
 export interface IFindPartiesResponse extends Prisma.PartiesModel {
 	mp_count: number;

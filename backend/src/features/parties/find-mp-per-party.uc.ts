@@ -1,5 +1,6 @@
-import { Prisma } from "../../../../prisma/generated/client";
-import { prisma } from "../../../utils/database";
+import { Prisma } from "../../../prisma/generated/client";
+import { prisma } from "../../utils/database";
+
 interface IMpPerParty {
 	party_id: string;
 	party_name: string;

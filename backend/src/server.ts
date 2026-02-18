@@ -5,8 +5,6 @@ import { globalErrorHandling } from "./utils/global-error-handling";
 import { parseElectionFile } from "./features/upload-election/parse-election";
 import { findVotes } from "./features/find-votes";
 import { aggregatedResults } from "./features/aggregated-results";
-import { findVoteDistributionPerParty } from "./features/aggregated-results/find-vote-distribution-per-party";
-import { findMpPerParty } from "./features/aggregated-results/find-mp-per-party";
 import { findDistricts } from "./features/districts/find-districts";
 import { findDistrict } from "./features/districts/find-district";
 import { findDistrictHistoricalVotes } from "./features/districts/find-district-historical-votes";
@@ -49,8 +47,6 @@ import { findPartyHistoricalVotes } from "./features/parties/find-party-historic
 	server.get("/read-election", () => parseElectionFile("./temp/election.txt"));
 	server.get("/votes", findVotes);
 	server.get("/results", aggregatedResults);
-	server.get("/distributed-votes-per-party", findVoteDistributionPerParty); // TODO: delete this
-	server.get("/mp-per-party", findMpPerParty); // TODO: deprecate. Use /parties instead
 
 	server.get("/districts", findDistricts);
 	server.get("/districts/:districtId", findDistrict);

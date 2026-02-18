@@ -1,21 +1,11 @@
 import SummaryCardReport from "@/components/summary-card-report";
 import SummaryDataList from "../generic-summary-list/list";
-import { useQuery } from "@tanstack/react-query";
-import { getRequest } from "@/utils/http";
 import GenericSummaryListSkeleton from "../generic-summary-list/generic-summary-list.skeleton";
 import { Link } from "@tanstack/react-router";
-
-interface IPartyMPCount {
-	party_name: string;
-	party_id: string;
-	mp_count: number;
-}
+import { useParties } from "@/services/party";
 
 const PartyMPCount = () => {
-	const { data, isLoading, error } = useQuery({
-		queryKey: ["party-mp-count"],
-		queryFn: () => getRequest<IPartyMPCount[]>("mp-per-party"),
-	});
+	const { data, isLoading, error } = useParties();
 
 	if (isLoading) {
 		return <GenericSummaryListSkeleton />;
@@ -30,12 +20,12 @@ const PartyMPCount = () => {
 			<SummaryDataList
 				report={(data?.data ?? []).map((item) => ({
 					name: (
-						<Link to={`/party/$partyId`} params={{ partyId: item.party_id }}>
-							{item.party_name}
+						<Link to={`/party/$partyId`} params={{ partyId: item.id }}>
+							{item.name}
 						</Link>
 					),
 					total: item.mp_count,
-					id: item.party_id,
+					id: item.id,
 				}))}
 			/>
 		</SummaryCardReport>

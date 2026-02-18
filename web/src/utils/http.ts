@@ -74,7 +74,6 @@ export async function api<T>(
 			raw: rest,
 		};
 	} catch (error) {
-		console.log("error weird one", error);
 		throw new Error(error instanceof Error ? error.message : "Unknown error");
 	}
 }

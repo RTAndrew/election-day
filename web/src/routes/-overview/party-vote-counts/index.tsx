@@ -1,5 +1,5 @@
 import SummaryCardReport from "@/components/summary-card-report";
-import { useWinningParties } from "@/services/party";
+import { useParties } from "@/services/party";
 import { formatKNumber } from "@/utils/format-k-number";
 import { Pie, type PieConfig } from "@ant-design/charts";
 import { Skeleton as AntdSkeleton, Empty } from "antd";
@@ -27,7 +27,7 @@ const Skeleton = () => {
 };
 
 const VoteCounts = () => {
-	const { data, error, isPending } = useWinningParties();
+	const { data, error, isPending } = useParties();
 
 	if (isPending) {
 		return <Skeleton />;
@@ -59,7 +59,7 @@ const VoteCounts = () => {
 			},
 		},
 		data: data?.data?.map((item) => ({
-			type: item.party_name,
+			type: item.name,
 			value: item.vote_percentage,
 			total: item.total_vote_count,
 		})),

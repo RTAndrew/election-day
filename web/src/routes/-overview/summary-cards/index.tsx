@@ -1,10 +1,10 @@
 import { SummaryCards } from "@/components/summary-cards";
 import { SummaryCardsSkeleton } from "@/components/summary-cards/skeleton";
-import { useWinningParties } from "@/services/party";
+import { useParties } from "@/services/party";
 import { useMemo } from "react";
 
 export const OverViewSummaryCards = () => {
-	const { data, error, isPending } = useWinningParties();
+	const { data, error, isPending } = useParties();
 
 	const values = useMemo(() => {
 		const [foundParty] = (data?.data ?? []).sort(
@@ -15,7 +15,7 @@ export const OverViewSummaryCards = () => {
 			data?.data?.reduce((acc, curr) => acc + curr.total_vote_count, 0) ?? 0;
 
 		const winningParty = {
-			name: foundParty?.party_name ?? "",
+			name: foundParty?.name ?? "",
 			totalVotes: foundParty?.total_vote_count ?? 0,
 			votePercentage: foundParty?.vote_percentage ?? 0,
 		};

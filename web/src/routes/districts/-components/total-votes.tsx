@@ -1,7 +1,7 @@
 import SummaryCardReport from "@/components/summary-card-report";
 import { SummaryCardsSkeleton } from "@/components/summary-cards/skeleton";
 import WinningPartyCardStat from "@/components/winning-party-card-stat";
-import { useFindDistrict } from "@/services/district";
+import { useDistrict } from "@/services/district";
 
 interface DistrictTotalVotesProps {
 	districtId: string;
@@ -15,7 +15,7 @@ const getDistrictNationalRank = (districtNationalRank: number) => {
 };
 
 const DistrictTotalVotes = ({ districtId }: DistrictTotalVotesProps) => {
-	const { data, isPending, error } = useFindDistrict(districtId);
+	const { data, isPending, error } = useDistrict(districtId);
 
 	if (isPending) return <SummaryCardsSkeleton />;
 	if (error || !data) return <div>Error: {error?.message}</div>;

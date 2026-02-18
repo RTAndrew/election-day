@@ -1,6 +1,6 @@
 import type { IDistrict, IHistoricalVote, IParty, IVote } from "@/types";
-import { buildAPIQueries, getRequest, type IApiResponse } from "@/utils/http";
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import { getRequest } from "@/utils/http";
+import { useQuery } from "@tanstack/react-query";
 
 export interface IGetDistrictResponse extends IDistrict {
 	winning_party: {
@@ -26,39 +26,41 @@ interface IDistrictsResponse extends IDistrict {
 	votes: (IVote & { party: IParty })[];
 }
 
-export const useFindDistrict = (districtId: string) => {
-	return useQuery({
+// DISTRICT
+export const getUseDistrictOptions = (districtId: string) => {
+	return {
 		queryKey: ["districts", districtId],
 		queryFn: () => getRequest<IGetDistrictResponse>(`districts/${districtId}`),
-	});
+	};
+};
+
+export const useDistrict = (districtId: string) => {
+	return useQuery(getUseDistrictOptions(districtId));
+};
+
+// DISTRICTS LIST
+export const getUseDistrictsOptions = () => {
+	return {
+		queryKey: ["districts"],
+		queryFn: () => getRequest<IDistrictsResponse[]>(`districts`),
+	};
 };
 
 export const useDistricts = () => {
-	return useQuery({
-		queryKey: ["districts"],
-		queryFn: () => getRequest<IDistrictsResponse[]>(`districts`),
-	});
+	return useQuery(getUseDistrictsOptions());
 };
 
-export const useFindDistrictHistoricalVotes = (districtId: string) => {
-	return useQuery({
-		queryKey: ["districts", districtId, "historical-votes"],
+// HISTORY VOTES
+export const getUseDistrictHistoryVotesOptions = (districtId: string) => {
+	return {
+		queryKey: ["districts", districtId, "history"],
 		queryFn: () =>
 			getRequest<IFindDistrictHistoricalVotesResponse[]>(
 				`districts/${districtId}/history`,
 			),
-	});
+	};
 };
 
-export const getDistributedVotesPerPartyOptions = (
-	districtId: string | undefined,
-) =>
-	({
-		queryKey: ["distributed-votes-per-party"], // no ID just to be easier to revalidate on SSE
-		queryFn: () =>
-			getRequest(buildAPIQueries("districts", { district_id: districtId })),
-	}) as UseQueryOptions<IApiResponse<unknown>>;
-
-export const useDistributedVotesPerParty = (districtId: string | undefined) => {
-	return useQuery(getDistributedVotesPerPartyOptions(districtId));
+export const useDistrictHistoryVotes = (districtId: string) => {
+	return useQuery(getUseDistrictHistoryVotesOptions(districtId));
 };

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { API_URL } from "../../utils/http";
 import { queryClient } from "@/utils/query-client";
-import { getWinningPartiesOptions } from "@/services/party";
-import { getDistributedVotesPerPartyOptions } from "@/services/district";
 import { useWithSound } from "@/hooks/useSound";
 import mouseClickSound from "@/assets/mouse-click.mp3";
 import { useUploadProgress } from "../context/upload-progress";
+import { getUseDistrictsOptions } from "@/services/district";
+import { getUsePartiesOptions } from "@/services/party";
 
 const ServerSentEvents = () => {
 	const { playSound } = useWithSound(mouseClickSound);
@@ -20,7 +20,6 @@ const ServerSentEvents = () => {
 
 		eventSource.onmessage = (e: MessageEvent<string>) => {
 			const parsedEvent = JSON.parse(e.data);
-			console.log("event", parsedEvent);
 
 			if (parsedEvent.event === "uploadProgress") {
 				addProgress(parsedEvent.uploadId, {
@@ -33,12 +32,11 @@ const ServerSentEvents = () => {
 				});
 			}
 
+			// TODO: refetch all queries
 			if (parsedEvent.event === "votesUpdated") {
 				playSound();
-				queryClient.refetchQueries(getWinningPartiesOptions);
-				queryClient.refetchQueries(
-					getDistributedVotesPerPartyOptions(undefined),
-				);
+				// refetch all queries
+				queryClient.invalidateQueries();
 			}
 		};
 

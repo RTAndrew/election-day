@@ -1,8 +1,8 @@
 import DistrictHistoricalVotes from "@/components/district-historical-votes";
-import { useFindHistoricalVotes } from "@/services/use-historical-votes";
+import { useGlobalHistoricalVotes } from "@/services/use-historical-votes";
 
 const OverviewHistoricalVotes = () => {
-	const query = useFindHistoricalVotes();
+	const query = useGlobalHistoricalVotes();
 	return <DistrictHistoricalVotes {...query} />;
 };
 
