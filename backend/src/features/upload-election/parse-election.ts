@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { PartyCode } from "../../../prisma/generated/enums.js";
+import { PartyCode } from "../../../prisma/generated/enums";
 
 export type PartyVotes = {
 	vote_count: number;

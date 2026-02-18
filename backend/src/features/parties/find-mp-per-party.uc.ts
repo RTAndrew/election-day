@@ -1,5 +1,5 @@
-import { Prisma } from "../../../prisma/generated/client.js";
-import { prisma } from "../../utils/database.js";
+import { Prisma } from "../../../prisma/generated/client";
+import { prisma } from "../../utils/database";
 
 interface IMpPerParty {
 	party_id: string;

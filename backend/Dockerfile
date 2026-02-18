@@ -13,12 +13,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
 RUN npm run build
-# Patch Prisma generated ESM: Node requires .js extension for relative imports
-RUN sed -i 's|from "./enums"|from "./enums.js"|g; s|from '\''./enums'\''|from '\''./enums.js'\''|g' /app/dist/prisma/generated/client.js \
-    && sed -i 's|from "./internal/class"|from "./internal/class.js"|g' /app/dist/prisma/generated/client.js \
-    && sed -i 's|from "./internal/prismaNamespace"|from "./internal/prismaNamespace.js"|g' /app/dist/prisma/generated/client.js \
-    && sed -i 's|from "./class"|from "./class.js"|g' /app/dist/prisma/generated/internal/prismaNamespace.js \
-    && sed -i 's|from "./enums"|from "./enums.js"|g' /app/dist/prisma/generated/commonInputTypes.js
+# Patch Prisma generated ESM: Node requires .js extension for relative imports (all *.js under dist/prisma)
+RUN find /app/dist/prisma -name "*.js" -exec sed -i \
+    -e 's|from "\./\([^"]*\)"|from "./\1.js"|g' \
+    -e 's|\.js\.js"|.js"|g' \
+    -e 's|from '\''\./\([^'\'']*\)'\''|from '\''./\1.js'\''|g' \
+    -e 's|\.js\.js'\''|.js'\''|g' \
+    {} \;
 
 # Runner
 FROM base AS runner

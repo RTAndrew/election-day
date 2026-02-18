@@ -5,8 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "tsc",
-		"start": "node --experimental-specifier-resolution=node dist/src/server.js",
+		"build": "tsc && resolve-tspaths && tsc-esm-fix --target=dist/src",
+		"start": "node dist/src/server.js",
 		"dev": "npx tsx watch src/server.ts",
 		"seed": "npx tsx scripts/seed-lisbon-10day.ts"
 	},
@@ -33,7 +33,10 @@
 	"devDependencies": {
 		"@types/bun": "latest",
 		"@types/node": "^25.2.3",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"resolve-tspaths": "^0.8.23",
+		"tsc-esm-fix": "^3.1.2",
+		"tsx": "^4.19.2"
 	},
 	"private": true
 }

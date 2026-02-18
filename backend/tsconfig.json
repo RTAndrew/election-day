@@ -4,7 +4,8 @@
     // File Layout
     "rootDir": ".",
     "outDir": "./dist",
-
+    "baseUrl": ".",
+    "paths": {},
 
     "module": "ESNext",
     "moduleResolution": "bundler",

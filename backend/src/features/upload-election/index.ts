@@ -1,11 +1,11 @@
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { text } from "node:stream/consumers";
-import { parseElectionContent } from "./parse-election.js";
-import { prisma } from "../../utils/database.js";
-import { saveDistrictElection } from "../save-district-election/index.js";
-import { generateUUID } from "../../utils/uuid.js";
-import { VoteBatchStatus } from "../../../prisma/generated/enums.js";
-import { emitSseEvent } from "../server-sent-events/index.js";
+import { parseElectionContent } from "./parse-election";
+import { prisma } from "../../utils/database";
+import { saveDistrictElection } from "../save-district-election";
+import { generateUUID } from "../../utils/uuid";
+import { VoteBatchStatus } from "../../../prisma/generated/enums";
+import { emitSseEvent } from "../server-sent-events";
 
 const SIX_MINUTES_IN_MS = 60 * 1000 * 6;
 

@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/database.js";
+import { prisma } from "../../utils/database";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export const findDistricts = async (

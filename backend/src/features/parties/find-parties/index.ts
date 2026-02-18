@@ -1,5 +1,5 @@
 import type { FastifyRequest, FastifyReply } from "fastify";
-import { FindPartiesUC } from "./find-parties.uc.js";
+import { FindPartiesUC } from "./find-parties.uc";
 
 
 export const findParties = async (

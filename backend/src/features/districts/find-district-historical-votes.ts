@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { prisma } from "../../utils/database.js";
+import { prisma } from "../../utils/database";
 
 export const findDistrictHistoricalVotes = async (req: FastifyRequest, res: FastifyReply) => {
   const { districtId } = req.params as { districtId: string };
