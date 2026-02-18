@@ -3,6 +3,7 @@ import SummaryDataList from "../generic-summary-list/list";
 import GenericSummaryListSkeleton from "../generic-summary-list/generic-summary-list.skeleton";
 import { Link } from "@tanstack/react-router";
 import { useParties } from "@/services/party";
+import { Empty } from "antd";
 
 const PartyMPCount = () => {
 	const { data, isLoading, error } = useParties();
@@ -12,7 +13,15 @@ const PartyMPCount = () => {
 	}
 
 	if (error || !data) {
-		return <></>;
+		return <Empty description="An error occurred while fetching the data" />;
+	}
+
+	if (data?.data?.length === 0) {
+		return (
+			<SummaryCardReport title="Members of Parliament">
+				<Empty description="No data found" />
+			</SummaryCardReport>
+		);
 	}
 
 	return (

@@ -1,6 +1,6 @@
-import { prisma } from "../../utils/database";
+import { prisma } from "../../utils/database.js";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { emitSseEvent } from "../server-sent-events";
+import { emitSseEvent } from "../server-sent-events/index.js";
 
 const districtResults = async () => {
 	const results = await prisma.parties.findMany({

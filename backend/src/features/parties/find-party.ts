@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { FindPartiesUC } from "./find-parties/find-parties.uc";
-import { prisma } from "../../utils/database";
+import { FindPartiesUC } from "./find-parties/find-parties.uc.js";
+import { prisma } from "../../utils/database.js";
 
 export const findParty = async (
 	request: FastifyRequest,

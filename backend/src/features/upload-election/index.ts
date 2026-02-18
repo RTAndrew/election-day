@@ -1,17 +1,12 @@
-import path from "node:path";
 import type { FastifyRequest, FastifyReply } from "fastify";
-import { pipeline } from "node:stream/promises";
-import fs from "node:fs";
-import { parseElectionFile } from "./parse-election.js";
+import { text } from "node:stream/consumers";
+import { parseElectionContent } from "./parse-election.js";
 import { prisma } from "../../utils/database.js";
 import { saveDistrictElection } from "../save-district-election/index.js";
 import { generateUUID } from "../../utils/uuid.js";
 import { VoteBatchStatus } from "../../../prisma/generated/enums.js";
 import { emitSseEvent } from "../server-sent-events/index.js";
 
-const __dirname = path.dirname(new URL("../../", import.meta.url).pathname);
-
-const uploadsDir = path.join(__dirname, "temp");
 const SIX_MINUTES_IN_MS = 60 * 1000 * 6;
 
 const fakePromise = (ms: number) =>
@@ -41,13 +36,10 @@ export const uploadElectionController = async (
 		},
 	});
 
-	const filename = `${Date.now()}_${data.filename}`;
-	const filepath = path.join(uploadsDir, filename);
 	await fakePromise(1000);
-	await pipeline(data.file, fs.createWriteStream(filepath, { flags: "w" }));
+	const content = await text(data.file);
+	const rows = parseElectionContent(content);
 
-	// event parsing_file
-	const rows = parseElectionFile(filepath);
 	emitSseEvent({
 		event: "uploadProgress",
 		uploadId,
@@ -111,20 +103,20 @@ export const uploadElectionController = async (
 				},
 			});
 
-				emitSseEvent({
-					event: "uploadProgress",
-					uploadId,
-					phase: "completed",
-					data: { status: "loading" },
-				});
+			emitSseEvent({
+				event: "uploadProgress",
+				uploadId,
+				phase: "completed",
+				data: { status: "loading" },
+			});
 
-				await tx.voteBatches.update({
-					where: { id: voteBatch.id },
-					data: {
-						status: VoteBatchStatus.COMPLETED,
-						completed_at_ms: performance.now() - processingStartedAt,
-					},
-				});
+			await tx.voteBatches.update({
+				where: { id: voteBatch.id },
+				data: {
+					status: VoteBatchStatus.COMPLETED,
+					completed_at_ms: performance.now() - processingStartedAt,
+				},
+			});
 		},
 		{ timeout: txTimeoutMs },
 	);

@@ -1,18 +1,18 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
-import { uploadElectionController } from "./features/upload-election";
-import { globalErrorHandling } from "./utils/global-error-handling";
-import { parseElectionFile } from "./features/upload-election/parse-election";
-import { findVotes } from "./features/find-votes";
-import { aggregatedResults } from "./features/aggregated-results";
-import { findDistricts } from "./features/districts/find-districts";
-import { findDistrict } from "./features/districts/find-district";
-import { findDistrictHistoricalVotes } from "./features/districts/find-district-historical-votes";
-import { findHistoricalVotes } from "./features/find-historical-votes";
-import { serverSentEvents } from "./features/server-sent-events";
-import { findParties } from "./features/parties/find-parties";
-import { findParty } from "./features/parties/find-party";
-import { findPartyHistoricalVotes } from "./features/parties/find-party-historical-votes";
+import { uploadElectionController } from "./features/upload-election/index.js";
+import { globalErrorHandling } from "./utils/global-error-handling.js";
+import { parseElectionFile } from "./features/upload-election/parse-election.js";
+import { findVotes } from "./features/find-votes/index.js";
+import { aggregatedResults } from "./features/aggregated-results/index.js";
+import { findDistricts } from "./features/districts/find-districts.js";
+import { findDistrict } from "./features/districts/find-district.js";
+import { findDistrictHistoricalVotes } from "./features/districts/find-district-historical-votes.js";
+import { findHistoricalVotes } from "./features/find-historical-votes.js";
+import { serverSentEvents } from "./features/server-sent-events/index.js";
+import { findParties } from "./features/parties/find-parties/index.js";
+import { findParty } from "./features/parties/find-party.js";
+import { findPartyHistoricalVotes } from "./features/parties/find-party-historical-votes/index.js";
 
 (async () => {
 	const server = fastify({
@@ -62,7 +62,7 @@ import { findPartyHistoricalVotes } from "./features/parties/find-party-historic
 
 	server.setErrorHandler(globalErrorHandling);
 
-	server.listen({ port: 8080 }, (err, address) => {
+	server.listen({ port: 8080, host: "0.0.0.0" }, (err, address) => {
 		if (err) {
 			console.error(err);
 			process.exit(1);

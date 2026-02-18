@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { PartyCode } from "../../../prisma/generated/enums";
+import { PartyCode } from "../../../prisma/generated/enums.js";
 
 export type PartyVotes = {
 	vote_count: number;
@@ -78,13 +78,20 @@ export function parseElectionLine(
 }
 
 /**
- * Parses the election file at the given path (one district per line).
+ * Parses election content (one district per line).
  */
-export function parseElectionFile(filepath: string): ElectionRow[] {
-	const content = fs.readFileSync(filepath, "utf-8");
+export function parseElectionContent(content: string): ElectionRow[] {
 	return content
 		.split("\n")
 		.map((line) => line.trim())
 		.filter(Boolean)
 		.map((line, index) => parseElectionLine(line, index + 1));
+}
+
+/**
+ * Parses the election file at the given path (one district per line).
+ */
+export function parseElectionFile(filepath: string): ElectionRow[] {
+	const content = fs.readFileSync(filepath, "utf-8");
+	return parseElectionContent(content);
 }

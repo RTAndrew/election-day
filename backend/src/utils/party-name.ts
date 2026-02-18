@@ -1,4 +1,4 @@
-import type { PartyCode } from "../../prisma/generated/enums";
+import type { PartyCode } from "../../prisma/generated/enums.js";
 
 const partyNames: Record<`${PartyCode}`, string> = {
   PSD: "Partido Social Democrata",

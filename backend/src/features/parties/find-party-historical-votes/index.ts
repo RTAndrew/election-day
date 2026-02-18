@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { prisma } from "../../../utils/database";
+import { prisma } from "../../../utils/database.js";
 
 export const findPartyHistoricalVotes = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { partyId } = request.params as { partyId: string };

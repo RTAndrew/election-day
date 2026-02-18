@@ -7,6 +7,8 @@ import {
 	type HistoricalVoteInputItem,
 	type IHistoricalVoteChartPoint,
 } from "./utils";
+import Loading from "../loading";
+import { Empty } from "antd";
 
 const DistrictHistoricalVotes = ({
 	data,
@@ -22,8 +24,16 @@ const DistrictHistoricalVotes = ({
 		[data, prepareChartData],
 	);
 
-	if (isPending) return <div>Loading...</div>;
-	if (!data || error) return <div>No data</div>;
+	if (isPending) return <Loading fullWidth />;
+	if (error || !data)
+		return <Empty description="An error occurred while fetching the data" />;
+	if (data?.data?.length === 0) {
+		return (
+			<SummaryCardReport title="Historical Votes">
+				<Empty description="No data found" />
+			</SummaryCardReport>
+		);
+	}
 
 	const config = {
 		interaction: {

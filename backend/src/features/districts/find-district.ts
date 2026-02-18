@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { aggregatedDistricts } from "./aggregated-districts";
-import { prisma } from "../../utils/database";
+import { aggregatedDistricts } from "./aggregated-districts.js";
+import { prisma } from "../../utils/database.js";
 
 export const findDistrict = async (
 	request: FastifyRequest,

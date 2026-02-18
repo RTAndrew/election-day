@@ -4,8 +4,6 @@ import { queryClient } from "@/utils/query-client";
 import { useWithSound } from "@/hooks/useSound";
 import mouseClickSound from "@/assets/mouse-click.mp3";
 import { useUploadProgress } from "../context/upload-progress";
-import { getUseDistrictsOptions } from "@/services/district";
-import { getUsePartiesOptions } from "@/services/party";
 
 const ServerSentEvents = () => {
 	const { playSound } = useWithSound(mouseClickSound);
@@ -32,7 +30,6 @@ const ServerSentEvents = () => {
 				});
 			}
 
-			// TODO: refetch all queries
 			if (parsedEvent.event === "votesUpdated") {
 				playSound();
 				// refetch all queries

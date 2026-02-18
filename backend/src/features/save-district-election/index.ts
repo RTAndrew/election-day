@@ -1,7 +1,7 @@
-import type { PartyCode, Prisma } from "../../../prisma/generated/client";
-import { getPartyName } from "../../utils/party-name";
-import { generateUUID } from "../../utils/uuid";
-import type { ElectionRow } from "../upload-election/parse-election";
+import type { PartyCode, Prisma } from "../../../prisma/generated/client.js";
+import { getPartyName } from "../../utils/party-name.js";
+import { generateUUID } from "../../utils/uuid.js";
+import type { ElectionRow } from "../upload-election/parse-election.js";
 
 // TODO: move to upload and make it a single function
 export const saveDistrictElection = async (

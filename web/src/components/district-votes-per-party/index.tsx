@@ -1,26 +1,33 @@
-import SummaryCardReport from '@/components/summary-card-report';
-import { formatKNumber } from '@/utils/format-k-number';
-import { getRequest } from '@/utils/http';
-import { Column } from '@ant-design/charts';
-import { useQuery } from '@tanstack/react-query';
+import SummaryCardReport from "@/components/summary-card-report";
+import { formatKNumber } from "@/utils/format-k-number";
+import { getRequest } from "@/utils/http";
+import { Column } from "@ant-design/charts";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading";
+import { Empty } from "antd";
 
 interface DistrictsVotesPerPartyProps {
-  districtId?: string;
+	districtId?: string;
 }
 
-const buildAPIQueries = (endpoint: string, queryParams: Record<string, string | undefined | null>) => {
+const buildAPIQueries = (
+	endpoint: string,
+	queryParams: Record<string, string | undefined | null>,
+) => {
 	if (!queryParams || Object.keys(queryParams).length === 0) return endpoint;
 
-  const params = new URLSearchParams();
+	const params = new URLSearchParams();
 	for (const [key, value] of Object.entries(queryParams)) {
 		if (!value) continue;
-    params.set(key, value);
-  }
-  return `${endpoint}?${params.toString()}`;
-}
+		params.set(key, value);
+	}
+	return `${endpoint}?${params.toString()}`;
+};
 
-const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => {
-  const { data, isPending } = useQuery<any>({
+const DistrictsVotesPerParty = ({
+	districtId,
+}: DistrictsVotesPerPartyProps) => {
+	const { data, isPending, error } = useQuery<any>({
 		queryKey: ["districts-votes-per-party"],
 		queryFn: () => {
 			return getRequest(
@@ -29,29 +36,38 @@ const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => 
 		},
 	});
 
-  if (isPending) return <div>Loading...</div>
-  if (!data) return <div>No data</div>
+	if (isPending) return <Loading fullWidth />;
 
-  let result = [];
+	if (error || !data)
+		return <Empty description="An error occurred while fetching the data" />;
 
-  for (const district of data.data) {
-    let data = {
-      name: district.name,
-      party: 'N/A',
-      votes: 0,
-    }
+	if (data.data.length === 0)
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Empty description="No data found" />
+			</SummaryCardReport>
+		);
 
-    for (const vote of district.votes) {
-      let newData = {
-        ...data,
-      }
-      newData.votes = vote.total_vote_count;
-      newData.party = vote.party.name;
-      result.push(newData);
-    }
-  }
+	let result = [];
 
-  const config = {
+	for (const district of data.data) {
+		let data = {
+			name: district.name,
+			party: "N/A",
+			votes: 0,
+		};
+
+		for (const vote of district.votes) {
+			let newData = {
+				...data,
+			};
+			newData.votes = vote.total_vote_count;
+			newData.party = vote.party.name;
+			result.push(newData);
+		}
+	}
+
+	const config = {
 		data: result,
 		xField: "name",
 		yField: "votes",
@@ -62,7 +78,9 @@ const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => 
 				render: (_, { title, items }) => {
 					return (
 						<div key={title}>
-              <p style={{ marginBottom: 12, fontWeight: 'bold', fontSize: 16 }}>{title}</p>
+							<p style={{ marginBottom: 12, fontWeight: "bold", fontSize: 16 }}>
+								{title}
+							</p>
 
 							{items.map((item) => {
 								const { name, value, color } = item;
@@ -98,14 +116,13 @@ const DistrictsVotesPerParty = ({ districtId }: DistrictsVotesPerPartyProps) => 
 				},
 			},
 		},
-  };
+	};
 
-  return (
+	return (
 		<SummaryCardReport title="Vote Distribution">
 			<Column {...config} />
 		</SummaryCardReport>
 	);
-}
+};
 
-
-export default DistrictsVotesPerParty
+export default DistrictsVotesPerParty;

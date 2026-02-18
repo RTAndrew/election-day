@@ -25,7 +25,26 @@ export interface IApiResponse<T> {
 	raw: Response;
 }
 
-export const API_URL = "http://localhost:8080/";
+const DEFAULT_API_URL = "http://localhost:8080/";
+
+function getApiBase(): string {
+	// Runtime override (e.g. injected in index.html or set before app loads)
+	if (typeof window !== "undefined" && (window as unknown as { __API_URL__?: string }).__API_URL__) {
+		const base = (window as unknown as { __API_URL__: string }).__API_URL__;
+		return base.endsWith("/") ? base : `${base}/`;
+	}
+	// Build-time env (for deployments where API is on another host)
+	const env = import.meta.env.VITE_API_URL;
+	if (typeof env === "string" && env.trim() !== "") return env.endsWith("/") ? env : `${env}/`;
+	// In browser: same host, port 8080 — works for Docker and when opening via hostname or IP
+	if (typeof window !== "undefined" && window.location?.hostname) {
+		const { protocol, hostname } = window.location;
+		return `${protocol}//${hostname}:8080/`;
+	}
+	return DEFAULT_API_URL;
+}
+
+export const API_URL = getApiBase();
 
 export async function http<T>(request: RequestInfo): Promise<HttpResponse<T>> {
 	const response: HttpResponse<T> = await fetch(request);
@@ -46,8 +65,10 @@ export async function api<T>(
 	args: RequestInit,
 ): Promise<IApiResponse<T>> {
 	try {
+		const base = API_URL.replace(/\/$/, "");
+		const normalizedPath = path.replace(/^\//, "");
 		const { parsedBody, ...rest } = await http<THttp<T>>(
-			new Request(API_URL + path, {
+			new Request(`${base}/${normalizedPath}`, {
 				...args,
 				headers: args.headers
 					? args.headers

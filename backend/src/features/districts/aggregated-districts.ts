@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/database";
+import { prisma } from "../../utils/database.js";
 
 interface AggregatedDistrictRow {
   district_total_votes: number;
