@@ -49,8 +49,8 @@ For more detailed explanation, please see [DOCKER.md](./DOCKER.md).
 
 I took the liberty of adjusting the "data example" to make the project more real. Therefore, see to the folder `voting-polls` for the possible data to ingest.
 <br />
-> <i> It is still possible to ingest other districts/constituencies, but those will not be displayed in the map. </i>
-<br />
+
+> <i> It is still possible to ingest other districts/constituencies, but those will not be displayed in the map. </i> <br />
 > <i> The parties <b>MUST BE</b> the ones available in the examples, otherwise the system will fail gracefully. </i>
 
 <br />
