@@ -1,6 +1,6 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
-  "compilerOptions": {
+	// Visit https://aka.ms/tsconfig to read more about this file
+	"compilerOptions": {
 		// File Layout
 		"rootDir": ".",
 		"outDir": "./dist",
@@ -16,6 +16,8 @@
 		// See also https://aka.ms/tsconfig/module
 		// For nodejs:
 		"lib": ["esnext"],
+		"types": ["node"],
+		// and npm install -D @types/node
 
 		// Other Outputs
 		"sourceMap": true,
@@ -36,7 +38,6 @@
 
 		// Recommended Options
 		"strict": true,
-		"noImplicitAny": false,
 		"jsx": "react-jsx",
 		"verbatimModuleSyntax": true,
 		"isolatedModules": true,
@@ -44,6 +45,6 @@
 		"moduleDetection": "force",
 		"skipLibCheck": true
 	},
-  "exclude": ["node_modules", "dist", "prisma.config.ts"],
-  "include": ["src/**/*.ts", "prisma/schema.prisma", "prisma/generated/**/*.ts"],
+	"exclude": ["node_modules", "dist", "prisma.config.ts"],
+	"include": ["src/**/*.ts", "prisma/schema.prisma", "prisma/generated/**/*.ts"]
 }
