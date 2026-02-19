@@ -28,7 +28,7 @@ const DistrictTotalVotes = ({ districtId }: DistrictTotalVotesProps) => {
 
 	return (
 		<Row gutter={[12, 12]}>
-			<Col xs={24} sm={12} md={12} lg={8} xl={6}>
+			<Col xs={24} sm={12} lg={8}>
 				<SummaryCardReport title="Votes">
 					<SummaryCardReport.Stat
 						value={Intl.NumberFormat("en-US").format(
@@ -38,7 +38,7 @@ const DistrictTotalVotes = ({ districtId }: DistrictTotalVotesProps) => {
 					/>
 				</SummaryCardReport>
 			</Col>
-			<Col xs={24} sm={12} md={12} lg={8} xl={6}>
+			<Col xs={24} sm={12} lg={8}>
 				<SummaryCardReport title="Share of National Votes">
 					<SummaryCardReport.Stat
 						value={nationalVotePercentage.toFixed(2) + "%"}
@@ -46,23 +46,12 @@ const DistrictTotalVotes = ({ districtId }: DistrictTotalVotesProps) => {
 					/>
 				</SummaryCardReport>
 			</Col>
-			<Col xs={24} sm={12} md={12} lg={8} xl={6}>
+			<Col xs={24} sm={12} lg={8}>
 				<WinningPartyCardStat
 					name={data.data.winning_party.party_name}
 					totalVotes={data.data.winning_party.total_votes}
 					votePercentage={data.data.winning_party.vote_percentage_share}
 				/>
-			</Col>
-
-			<Col xs={24} sm={12} md={12} lg={8} xl={6}>
-				<SummaryCardReport title="Votes">
-					<SummaryCardReport.Stat
-						value={Intl.NumberFormat("en-US").format(
-							data.data.total_votes.total_votes,
-						)}
-						label="Participating Citizens"
-					/>
-				</SummaryCardReport>
 			</Col>
 		</Row>
 	);

@@ -131,7 +131,7 @@ async function main() {
 		}
 	}
 
-	const tempDir = path.join(__dirname, "../temp");
+	const tempDir = path.join(__dirname, "../../voting-polls");
 	if (!fs.existsSync(tempDir)) {
 		fs.mkdirSync(tempDir, { recursive: true });
 	}
@@ -146,7 +146,8 @@ async function main() {
 	});
 	formData.append("file", file, "seed-lisbon-3day-hourly.txt");
 
-	const res = await fetch("http://localhost:8080/upload-elections", {
+	const ID = Math.random().toString(36).substring(2, 15);
+	const res = await fetch(`http://localhost:8080/upload-elections/${ID}`, {
 		method: "POST",
 		body: formData,
 	});

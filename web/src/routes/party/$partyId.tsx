@@ -17,7 +17,8 @@ function RouteComponent() {
 
 	if (isPending) return <Loading fullWidth />;
 
-	if (error || !data?.data) return <Empty description="Error loading party" />;
+	if (error || !data || !data?.data)
+		return <Empty description="Error loading party" />;
 
 	const {
 		name,

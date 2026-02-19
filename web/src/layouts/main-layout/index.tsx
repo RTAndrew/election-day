@@ -28,7 +28,18 @@ const MainLayout = ({ children }: PropsWithChildren) => {
 				</ul>
 			</Header>
 			<Content className={styles.globalPadding}>{children}</Content>
-			<Footer>Footer</Footer>
+			<Footer>
+				<center>
+					Made with ❤️ by{" "}
+					<a
+						href="https://github.com/RTAndrew"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						RTAndrew
+					</a>
+				</center>
+			</Footer>
 		</Layout>
 	);
 }
