@@ -14,3 +14,4 @@ export const getPartyName = (partyCode: `${PartyCode}`) => {
   const code = partyCode.toUpperCase() as `${PartyCode}`;
   return partyNames[code] ?? code;
 };
+

@@ -1,0 +1,45 @@
+.lisbon-map {
+  width: 900px;
+  height: auto;
+}
+
+.district {
+  fill: #aeaeae;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.district-label {
+  fill: #333;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  text-transform: capitalize;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.tooltip-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

@@ -9,6 +9,7 @@ import OverviewHistoricalVotes from "./-overview/historical-votes";
 import DistrictTable from "./districts/-components/districts-table";
 import SummaryCardReport from "@/components/summary-card-report";
 import ScreenHeader from "@/components/screen-header";
+import LisbonMap from "./-overview/lisbon-map";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -18,6 +19,9 @@ function App() {
 			<ScreenHeader title="Overview" />
 
 			<Row gutter={[12, 12]}>
+				<Col xs={24} sm={24}>
+					<LisbonMap />
+				</Col>
 				<Col xs={24} sm={24} md={12} lg={6}>
 					<div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 						<OverViewSummaryCards />
