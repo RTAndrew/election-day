@@ -15,7 +15,7 @@ This project simulates an election scenario in Lisbon, Portugal, where results a
 
 This project applies correctness under evolving data, real-time visibility, historical traceability, and reliable aggregation. Citizens can therefore understand and visualize the election standing in real-time.
 <br/>
-Besides, members of CNE can upload the election results count at any moment.
+Besides, members of CNE can upload the election results at any moment.
 
 ## Features
 
