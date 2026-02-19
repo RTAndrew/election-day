@@ -33,8 +33,12 @@ const VoteCounts = () => {
 		return <Skeleton />;
 	}
 
-	if (error || !data) {
-		return <></>;
+	if (error || !data || !data?.data) {
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Empty description="An error occurred while fetching the data" />
+			</SummaryCardReport>
+		);
 	}
 
 	if (data.data?.length === 0) {

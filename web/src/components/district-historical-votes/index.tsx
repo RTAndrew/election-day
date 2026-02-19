@@ -25,8 +25,13 @@ const DistrictHistoricalVotes = ({
 	);
 
 	if (isPending) return <Loading fullWidth />;
-	if (error || !data)
-		return <Empty description="An error occurred while fetching the data" />;
+	if (error || !data || !data?.data)
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Empty description="An error occurred while fetching the data" />
+			</SummaryCardReport>
+		);
+
 	if (data?.data?.length === 0) {
 		return (
 			<SummaryCardReport title="Historical Votes">

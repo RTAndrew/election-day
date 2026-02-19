@@ -36,12 +36,21 @@ const DistrictsVotesPerParty = ({
 		},
 	});
 
-	if (isPending) return <Loading fullWidth />;
+	if (isPending)
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Loading fullWidth />;
+			</SummaryCardReport>
+		);
 
-	if (error || !data)
-		return <Empty description="An error occurred while fetching the data" />;
+	if (error || !data || !data?.data)
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Empty description="An error occurred while fetching the data" />
+			</SummaryCardReport>
+		);
 
-	if (data.data.length === 0)
+	if (data?.data?.length === 0)
 		return (
 			<SummaryCardReport title="Vote Distribution">
 				<Empty description="No data found" />
