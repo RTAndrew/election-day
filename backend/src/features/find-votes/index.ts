@@ -17,7 +17,7 @@ export const findVotes = async (
 
 	const formattedVotes = foundVotes.map((district) => {
 		let winningPartyCount = 0;
-		let winningParty = null;
+		let winningParty: any = null;
 
 		const votes = district.votes.map((vote) => {
 			// Find the winning party
