@@ -9,7 +9,11 @@ const PartyMPCount = () => {
 	const { data, isLoading, error } = useParties();
 
 	if (isLoading) {
-		return <GenericSummaryListSkeleton />;
+		return (
+			<SummaryCardReport title="Members of Parliament">
+				<GenericSummaryListSkeleton />
+			</SummaryCardReport>
+		);
 	}
 
 	if (error || !data) {

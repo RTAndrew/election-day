@@ -31,10 +31,10 @@ function RouteComponent() {
 				<Col xs={24} sm={24} md={24} lg={24} xl={24}>
 					<DistrictTotalVotes districtId={districtId} />
 				</Col>
-				<Col xs={24} sm={24} md={8} lg={8} xl={6}>
+				<Col xs={24} sm={24} md={24} lg={8} xl={6}>
 					<DistrictVotesPerParty districtId={districtId} />
 				</Col>
-				<Col xs={24} sm={24} md={16} lg={16} xl={18}>
+				<Col xs={24} sm={24} md={24} lg={16} xl={18}>
 					<DistrictHistoricalVotes districtId={districtId} />
 				</Col>
 			</Row>

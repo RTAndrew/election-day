@@ -24,7 +24,13 @@ const DistrictHistoricalVotes = ({
 		[data, prepareChartData],
 	);
 
-	if (isPending) return <Loading fullWidth />;
+	if (isPending)
+		return (
+			<SummaryCardReport title="Vote Distribution">
+				<Loading fullWidth />
+			</SummaryCardReport>
+		);
+
 	if (error || !data || !data?.data)
 		return (
 			<SummaryCardReport title="Vote Distribution">

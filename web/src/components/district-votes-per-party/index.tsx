@@ -39,7 +39,7 @@ const DistrictsVotesPerParty = ({
 	if (isPending)
 		return (
 			<SummaryCardReport title="Vote Distribution">
-				<Loading fullWidth />;
+				<Loading fullWidth />
 			</SummaryCardReport>
 		);
 

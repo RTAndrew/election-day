@@ -18,16 +18,16 @@ function App() {
 			<ScreenHeader title="Overview" />
 
 			<Row gutter={[12, 12]}>
-				<Col xs={24} sm={12} md={12} lg={6}>
+				<Col xs={24} sm={24} md={12} lg={6}>
 					<div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 						<OverViewSummaryCards />
 						<PartyMPCount />
 					</div>
 				</Col>
-				<Col xs={24} sm={12} md={12} lg={7}>
+				<Col xs={24} sm={24} md={12} lg={7}>
 					<PartyVoteCounts />
 				</Col>
-				<Col xs={24} sm={12} md={12} lg={11}>
+				<Col xs={24} sm={24} md={12} lg={11}>
 					<DistrictsVotesPerParty districtId="s" />
 				</Col>
 				<Col xs={24} sm={24} md={24} lg={12}>

@@ -2,8 +2,9 @@ import ScreenHeader from "@/components/screen-header";
 import SummaryCardReport from "@/components/summary-card-report";
 import { useParty } from "@/services/party";
 import { createFileRoute } from "@tanstack/react-router";
-import { Col, Row } from "antd";
+import { Col, Empty, Row } from "antd";
 import PartyHistoricalVotes from "./-history";
+import Loading from "@/components/loading";
 
 export const Route = createFileRoute("/party/$partyId")({
 	component: RouteComponent,
@@ -14,9 +15,9 @@ function RouteComponent() {
 
 	const { data, isPending, error } = useParty(partyId);
 
-	if (isPending) return <> Loading party... </>;
+	if (isPending) return <Loading fullWidth />;
 
-	if (error || !data?.data) return <> Error loading party </>;
+	if (error || !data?.data) return <Empty description="Error loading party" />;
 
 	const {
 		name,

@@ -10,7 +10,7 @@ const { Header, Footer, Content } = Layout;
 const MainLayout = ({ children }: PropsWithChildren) => {
   return (
 		<Layout>
-			<Header className={styles.header}>
+			<Header className={[styles.header, styles.globalPadding].join(" ")}>
 				<Link to="/">
 					<p className={styles.logo}>Election Day</p>
 				</Link>
@@ -27,7 +27,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
 					</li>
 				</ul>
 			</Header>
-			<Content className={styles.content}>{children}</Content>
+			<Content className={styles.globalPadding}>{children}</Content>
 			<Footer>Footer</Footer>
 		</Layout>
 	);

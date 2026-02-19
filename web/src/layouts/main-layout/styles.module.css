@@ -33,3 +33,13 @@
     }
   }
 }
+
+
+
+.globalPadding {
+  padding: 2rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem 4rem;
+  }
+}
