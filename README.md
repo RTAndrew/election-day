@@ -1,13 +1,10 @@
-
-
-
 #  <center> Lissabon Election Day <center>
 
 Application Demo: https://youtu.be/wDZXN9bImYk
 <br />
 Application link: https://election-day-frontend.onrender.com/
 
-To mimic an election taking place in a province, state, or district (constituency), this one focuses on Lissabon, Portugal’s capital with votes coming from 24 districts (constituencies) and disputed by 6 parties:
+This project simulates an election scenario in Lisbon, Portugal, where results arrive progressively from 24 constituencies and are contested by 6 political parties:
 
 - Partido Social Democrata
 - Partido Socialista
@@ -16,8 +13,9 @@ To mimic an election taking place in a province, state, or district (constituenc
 - Chega
 - Livre
 
-This small platform allows citizens to understand and visualize the election standing in real-time as it comes in.
-Not only that, members of comissão electoral can upload the election voting count at any moment.
+This project applies correctness under evolving data, real-time visibility, historical traceability, and reliable aggregation. Citizens can therefore understand and visualize the election standing in real-time.
+<br/>
+Besides, members of CNE can upload the election results count at any moment.
 
 ## Features
 
@@ -100,7 +98,12 @@ Regarding the realtime update, it could have been done by two major ways:
 2. Implement Websockets with possibility of “firing and forget” (query/subscribe and everything is handled).
 3. <b>Server-Sent-Events (SSE)</b>
 
-I chose <b> Server-Sent-Events (SSE) </b> for its simplicity but also because for Dashboards the connection is unidirectional, and the frontend is responsible for refetching or implement data syncronization. <br/>
+I chose <b> Server-Sent-Events (SSE) </b> for its simplicity but also because for Dashboards the connection is unidirectional. When new results are ingested:
+
+1. the backend broadcasts an update event
+2. clients refetch aggregated data
+3. the UI updates to reflect the latest results
+ <br/>
 For the sake of simplicity, whenever data changes (votes are uploaded), the frontend refetches all the information instead of implementing <i>Data Syncronization</i> mechanism ([have a look at this real-time data sync mechanism](https://github.com/RTAndrew/betolyn/blob/main/mobile/server-sent-events/data-sync.ts)).
 
 ## Database schema
@@ -117,10 +120,3 @@ Besides, it can also later be used along side of a <i>Message Queue</i> to procc
 
 <b> Vote </b> is the projection and each ingested votes, and reenforces the concept of overriding the votes already submitted.
 
-
-
-
-
-<i></i>
-<i></i>
-<i></i>
