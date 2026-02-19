@@ -51,8 +51,9 @@ I took the liberty of adjusting the "data example" to make the project more real
 <br />
 > <i> It is still possible to ingest other districts/constituencies, but those will not be displayed in the map. </i>
 <br />
-<i> The parties <b>MUST BE</b> the ones available in the examples, otherwise the system will fail gracefully. </i>
+> <i> The parties <b>MUST BE</b> the ones available in the examples, otherwise the system will fail gracefully. </i>
 
+<br />
 There are three major ways of running this project to understand progressively how it mimics real world scenarios:
 
 1. When the project starts, run the <b>SEED</b> to ingest data priori <3 days. This will allow you to subsequently upload new data and see how it evolves
@@ -61,7 +62,7 @@ There are three major ways of running this project to understand progressively h
 cd backend && npm run seed
 ```
 
-2. Manually ingest data one by one using the folder `./voting-polls/three-day-voting`. For each data ingested, observe how the platform behaves and presents the data as if it was a real-world scenario.
+2. Manually ingesting data one by one using the folder `./voting-polls/three-day-voting`. For each data ingested, observe how the platform behaves and presents the data as if it was a real-world scenario.
 
 3. Manually ingest the data that mimics a `10 day election`, by using the file in `./voting-polls/seed-lisbon-10day`.
 
@@ -71,15 +72,12 @@ cd backend && npm run seed
 docker compose down -v && docker compose up --build
 ```
 
-Then run the seed in another terminal:
-
-```bash
-cd backend && npm run seed
-```
 
 
-<i>ℹ️ Throughout the codebase comments have been left to throtle the data ingestion. Uncomment those marked with `// Testing:`, or use the production link to have a feeling how data is processed https://election-day-frontend.onrender.com/
+
+<i>ℹ️ Throughout the codebase comments have been left to throtle the data ingestion. Uncomment those marked with `// Testing:`, or use the production link to have a feeling how data is processed in a real production system https://election-day-frontend.onrender.com/
 </i>
+
 # <center> Technologies <center>
 #### Backend
 - Fastify
@@ -111,7 +109,7 @@ I chose <b> Server-Sent-Events (SSE) </b> for its simplicity but also because fo
 2. clients refetch aggregated data
 3. the UI updates to reflect the latest results
  <br/>
-For the sake of simplicity, whenever data changes (votes are uploaded), the frontend refetches all the information instead of implementing <i>Data Syncronization</i> mechanism ([have a look at this real-time data sync mechanism](https://github.com/RTAndrew/betolyn/blob/main/mobile/server-sent-events/data-sync.ts)).
+For the sake of simplicity, whenever data changes (votes are uploaded), the frontend refetches all the information instead of implementing <i>Data Syncronization</i> mechanism. [Have a look at this real-time data sync mechanism](https://github.com/RTAndrew/betolyn/blob/main/mobile/server-sent-events/data-sync.ts).
 
 # Tools
 - 2012 Lisbon Official Parishes Limit (geoJSON) - [lisboa.pt](dados.cm-lisboa.pt/en/dataset/freguesias-2012)
