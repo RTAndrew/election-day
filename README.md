@@ -1,6 +1,6 @@
 #  <center> Lissabon Election Day <center>
 
-Application Demo: https://youtu.be/wDZXN9bImYk
+Application Demo: https://youtu.be/6wrpbNJq1aA
 <br />
 Application link: https://election-day-frontend.onrender.com/
 
@@ -47,6 +47,12 @@ For more detailed explanation, please see [DOCKER.md](./DOCKER.md).
 # <center> How to Ingest Data <center>
 <i> Always open two tabs (or computer + phone) to see the real-time effect </i>. <b>Make sure your tab is allowed to play sounds</b>.
 
+I took the liberty of adjusting the "data example" to make the project more real. Therefore, see to the folder `voting-polls` for the possible data to ingest.
+<br />
+> <i> It is still possible to ingest other districts/constituencies, but those will not be displayed in the map. </i>
+<br />
+<i> The parties <b>MUST BE</b> the ones available in the examples, otherwise the system will fail gracefully. </i>
+
 There are three major ways of running this project to understand progressively how it mimics real world scenarios:
 
 1. When the project starts, run the <b>SEED</b> to ingest data priori <3 days. This will allow you to subsequently upload new data and see how it evolves
@@ -78,7 +84,7 @@ cd backend && npm run seed
 #### Backend
 - Fastify
 - Prisma ORM
-- Bruno API Specs
+- [Bruno API Specs ](https://www.usebruno.com/) - A fully open source alternative to Postman
 - Server-Sent-Events (SSE)
 
 #### Frontend
@@ -87,6 +93,7 @@ cd backend && npm run seed
 - Tanstack Query
 - Ant Design
 - AntV (G2)
+- JSX SVG - full custom code to make the Lisbon map interactable
 
 #### Remarks
 
@@ -106,7 +113,13 @@ I chose <b> Server-Sent-Events (SSE) </b> for its simplicity but also because fo
  <br/>
 For the sake of simplicity, whenever data changes (votes are uploaded), the frontend refetches all the information instead of implementing <i>Data Syncronization</i> mechanism ([have a look at this real-time data sync mechanism](https://github.com/RTAndrew/betolyn/blob/main/mobile/server-sent-events/data-sync.ts)).
 
-## Database schema
+# Tools
+- 2012 Lisbon Official Parishes Limit (geoJSON) - [lisboa.pt](dados.cm-lisboa.pt/en/dataset/freguesias-2012)
+- [MapShaper](https://mapshaper.org/) - for converting the geoJSON into SVG
+- [https://geojson.io](https://geojson.io/#map=11.92/38.73842/-9.16214) - for visualizing the geoJSON data
+
+
+# Database schema
 
 ![Entity-Relationship Diagram](./ERD-diagram.png)
 <b> Districts (Constituencies) </b> Holds all the districts as they are ingested into the platform
