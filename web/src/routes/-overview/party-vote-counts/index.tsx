@@ -4,8 +4,6 @@ import { formatKNumber } from "@/utils/format-k-number";
 import { Pie, type PieConfig } from "@ant-design/charts";
 import { Skeleton as AntdSkeleton, Empty } from "antd";
 
-
-
 const Skeleton = () => {
 	return (
 		<div
@@ -30,12 +28,16 @@ const VoteCounts = () => {
 	const { data, error, isPending } = useParties();
 
 	if (isPending) {
-		return <Skeleton />;
+		return (
+			<SummaryCardReport title="Votes per Party">
+				<Skeleton />
+			</SummaryCardReport>
+		);
 	}
 
 	if (error || !data || !data?.data) {
 		return (
-			<SummaryCardReport title="Vote Distribution">
+			<SummaryCardReport title="Votes per Party">
 				<Empty description="An error occurred while fetching the data" />
 			</SummaryCardReport>
 		);
@@ -43,7 +45,7 @@ const VoteCounts = () => {
 
 	if (data.data?.length === 0) {
 		return (
-			<SummaryCardReport title="Vote Counts">
+			<SummaryCardReport title="Votes per Party">
 				<Empty description="No data" />
 			</SummaryCardReport>
 		);
